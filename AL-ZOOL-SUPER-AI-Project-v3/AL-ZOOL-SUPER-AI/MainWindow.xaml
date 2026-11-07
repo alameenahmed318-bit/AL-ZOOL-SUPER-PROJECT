@@ -1,82 +1,200 @@
 <Window x:Class="ALZOOOOL.MainWindow"
- xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
- xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
- Title="AL-ZOOL SUPER AI" Height="850" Width="1450" MinHeight="700" MinWidth="1100"
- WindowStartupLocation="CenterScreen" Background="#111714" Foreground="#F2EBDD"
- FlowDirection="RightToLeft">
- <Grid>
-  <Grid.ColumnDefinitions><ColumnDefinition Width="255"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-  <Border Grid.Column="0" Background="#174B3A" Padding="14">
-   <DockPanel>
-    <StackPanel DockPanel.Dock="Top" Margin="4,8,4,20">
-     <TextBlock Text="AZ | الزول" Foreground="#D6B45A" FontSize="27" FontWeight="Bold"/>
-     <TextBlock Text="AL-ZOOL SUPER AI" Foreground="#F2EBDD" FontSize="12" Margin="0,5,0,0"/>
-     <TextBlock Text="GOLD • XAUUSD" Foreground="#D6B45A" FontSize="11" Margin="0,3,0,0"/>
-    </StackPanel>
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-     <StackPanel>
-      <Button Content="الرئيسية" Tag="الرئيسية" Click="Navigate_Click"/>
-      <Button Content="عقل الذكاء الاصطناعي" Tag="عقل الذكاء الاصطناعي" Click="Navigate_Click"/>
-      <Button Content="تحليل السوق" Tag="تحليل السوق" Click="Navigate_Click"/>
-      <Button Content="مكتبة الاستراتيجيات" Tag="مكتبة الاستراتيجيات" Click="Navigate_Click"/>
-      <Button Content="مختبر الاستراتيجيات والتركيبات" Tag="مختبر الاستراتيجيات والتركيبات" Click="Navigate_Click"/>
-      <Button Content="قرارات الذكاء الاصطناعي" Tag="قرارات الذكاء الاصطناعي" Click="Navigate_Click"/>
-      <Button Content="الصفقات المفتوحة" Tag="الصفقات المفتوحة" Click="Navigate_Click"/>
-      <Button Content="إدارة المخاطر" Tag="إدارة المخاطر" Click="Navigate_Click"/>
-      <Button Content="الإعدادات الثابتة" Tag="الإعدادات الثابتة" Click="Navigate_Click"/>
-      <Button Content="اللوت والتعزيز والتبريد" Tag="اللوت والتعزيز والتبريد" Click="Navigate_Click"/>
-      <Button Content="الأداء والإحصائيات" Tag="الأداء والإحصائيات" Click="Navigate_Click"/>
-      <Button Content="ذاكرة الذكاء الاصطناعي" Tag="ذاكرة الذكاء الاصطناعي" Click="Navigate_Click"/>
-      <Button Content="مراقبة النظام والاتصال" Tag="مراقبة النظام والاتصال" Click="Navigate_Click"/>
-      <Button Content="مركز الطوارئ" Tag="مركز الطوارئ" Click="Navigate_Click"/>
-      <Button Content="الأخبار الاقتصادية" Tag="الأخبار الاقتصادية" Click="Navigate_Click"/>
-      <Button Content="سجل التداول" Tag="سجل التداول" Click="Navigate_Click"/>
-      <Button Content="التنبيهات" Tag="التنبيهات" Click="Navigate_Click"/>
-      <Button Content="إعدادات الذكاء الاصطناعي" Tag="إعدادات الذكاء الاصطناعي" Click="Navigate_Click"/>
-      <Button Content="ماذا لو؟ محاكاة السوق" Tag="ماذا لو؟ محاكاة السوق" Click="Navigate_Click"/>
-      <Button Content="خريطة السيولة" Tag="خريطة السيولة" Click="Navigate_Click"/>
-      <Button Content="توقع حركة الذهب" Tag="توقع حركة الذهب" Click="Navigate_Click"/>
-      <Button Content="مقارنة الصفقات" Tag="مقارنة الصفقات" Click="Navigate_Click"/>
-      <Button Content="منافسة الاستراتيجيات" Tag="منافسة الاستراتيجيات" Click="Navigate_Click"/>
-      <Button Content="سجل التداول التحليلي" Tag="سجل التداول التحليلي" Click="Navigate_Click"/>
-      <Button Content="المساعد الصوتي العربي" Tag="المساعد الصوتي العربي" Click="Navigate_Click"/>
-      <Button Content="مركز التحكم الرئيسي" Tag="مركز التحكم الرئيسي" Click="Navigate_Click"/>
-     </StackPanel>
-    </ScrollViewer>
-   </DockPanel>
-  </Border>
-  <Grid Grid.Column="1" Margin="22">
-   <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
-   <DockPanel Grid.Row="0" Margin="0,0,0,18">
-    <StackPanel>
-     <TextBlock x:Name="PageTitle" Text="الرئيسية" FontSize="28" FontWeight="Bold" Foreground="#D6B45A"/>
-     <TextBlock x:Name="PageDescription" Text="مركز مراقبة الذهب وإدارة التداول" Foreground="#B8C2BB" Margin="0,5,0,0"/>
-    </StackPanel>
-    <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center">
-     <TextBlock x:Name="ConnectionStatus" Text="غير متصل" Foreground="OrangeRed" VerticalAlignment="Center" Margin="0,0,12,0"/>
-     <Button x:Name="ConnectButton" Content="تحديث الاتصال" Click="ConnectButton_Click" Padding="14,8" Background="#D6B45A" Foreground="#111714" BorderThickness="0"/>
-    </StackPanel>
-   </DockPanel>
-   <UniformGrid Grid.Row="1" Columns="3" Margin="0,0,0,18">
-    <Border Background="#202824" CornerRadius="9" Padding="14" Margin="0,0,10,0"><StackPanel><TextBlock Text="حالة التداول" Foreground="#B8C2BB"/><TextBlock x:Name="TradingStatus" Text="متوقف" FontSize="22" Foreground="#D6B45A"/></StackPanel></Border>
-    <Border Background="#202824" CornerRadius="9" Padding="14" Margin="0,0,10,0"><StackPanel><TextBlock Text="الأداة" Foreground="#B8C2BB"/><TextBlock Text="XAUUSD" FontSize="22" Foreground="#D6B45A"/></StackPanel></Border>
-    <Border Background="#202824" CornerRadius="9" Padding="14"><StackPanel><TextBlock Text="وضع التنفيذ" Foreground="#B8C2BB"/><TextBlock Text="مراقبة آمنة فقط" FontSize="18" Foreground="#D6B45A"/></StackPanel></Border>
-   </UniformGrid>
-   <Border Grid.Row="2" Background="#202824" CornerRadius="12" Padding="20">
-    <DockPanel>
-     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,14">
-      <Button x:Name="StartButton" Content="بدء" Click="StartButton_Click" Padding="16,8" Margin="0,0,8,0" Background="#176B45" Foreground="White" BorderThickness="0"/>
-      <Button x:Name="StopButton" Content="إيقاف" Click="StopButton_Click" Padding="16,8" Background="#71453B" Foreground="White" BorderThickness="0"/>
-     </StackPanel>
-     <ScrollViewer VerticalScrollBarVisibility="Auto">
-      <StackPanel>
-       <TextBlock x:Name="SectionInfo" Text="بانتظار بيانات MT5..." FontSize="16" TextWrapping="Wrap" Margin="0,0,0,15"/>
-       <TextBlock Text="محتوى القسم" Foreground="#D6B45A" FontSize="18" FontWeight="Bold" Margin="0,10,0,8"/>
-       <StackPanel x:Name="PageContent"/>
-      </StackPanel>
-     </ScrollViewer>
-    </DockPanel>
-   </Border>
-  </Grid>
- </Grid>
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AL-ZOOL SUPER AI" Height="900" Width="1500"
+        MinHeight="720" MinWidth="1120"
+        WindowStartupLocation="CenterScreen"
+        Background="#0D1511" Foreground="#F3F0E7"
+        FlowDirection="RightToLeft">
+    <Window.Resources>
+        <SolidColorBrush x:Key="Gold" Color="#D8B45A"/>
+        <SolidColorBrush x:Key="Green" Color="#1D6948"/>
+        <SolidColorBrush x:Key="Panel" Color="#17231C"/>
+        <SolidColorBrush x:Key="Panel2" Color="#1D2C23"/>
+        <SolidColorBrush x:Key="Muted" Color="#A9B8AE"/>
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="#F7F4EA"/>
+            <Setter Property="Background" Value="#244A36"/>
+            <Setter Property="BorderBrush" Value="#456A50"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="14,10"/>
+            <Setter Property="Margin" Value="0,4,0,4"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#326348"/>
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="#D8B45A"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.42"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="16">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" Background="#14251B" CornerRadius="16"
+                BorderBrush="#34533D" BorderThickness="1" Padding="14">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top" Margin="6,8,6,20">
+                    <Border Background="#203C2B" CornerRadius="12" Padding="12">
+                        <StackPanel>
+                            <TextBlock Text="AZ | الزول" Foreground="{StaticResource Gold}"
+                                       FontSize="28" FontWeight="Bold"/>
+                            <TextBlock Text="AL-ZOOL SUPER AI" Foreground="#F3F0E7"
+                                       FontSize="12" Margin="0,5,0,0"/>
+                            <TextBlock Text="GOLD CONTROL • XAUUSD" Foreground="#B9C7BC"
+                                       FontSize="10" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+                    <TextBlock Text="القائمة الرئيسية" Foreground="{StaticResource Gold}"
+                               FontSize="12" FontWeight="Bold" Margin="5,18,5,7"/>
+                </StackPanel>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <Button Content="الرئيسية" Tag="الرئيسية" Click="Navigate_Click"/>
+                        <Button Content="عقل الذكاء الاصطناعي" Tag="عقل الذكاء الاصطناعي" Click="Navigate_Click"/>
+                        <Button Content="تحليل السوق" Tag="تحليل السوق" Click="Navigate_Click"/>
+                        <Button Content="مكتبة الاستراتيجيات" Tag="مكتبة الاستراتيجيات" Click="Navigate_Click"/>
+                        <Button Content="مختبر الاستراتيجيات والتركيبات" Tag="مختبر الاستراتيجيات والتركيبات" Click="Navigate_Click"/>
+                        <Button Content="قرارات الذكاء الاصطناعي" Tag="قرارات الذكاء الاصطناعي" Click="Navigate_Click"/>
+                        <Button Content="الصفقات المفتوحة" Tag="الصفقات المفتوحة" Click="Navigate_Click"/>
+                        <Button Content="إدارة المخاطر" Tag="إدارة المخاطر" Click="Navigate_Click"/>
+                        <Button Content="الإعدادات الثابتة" Tag="الإعدادات الثابتة" Click="Navigate_Click"/>
+                        <Button Content="اللوت والتعزيز والتبريد" Tag="اللوت والتعزيز والتبريد" Click="Navigate_Click"/>
+                        <Button Content="الأداء والإحصائيات" Tag="الأداء والإحصائيات" Click="Navigate_Click"/>
+                        <Button Content="ذاكرة الذكاء الاصطناعي" Tag="ذاكرة الذكاء الاصطناعي" Click="Navigate_Click"/>
+                        <Button Content="مراقبة النظام والاتصال" Tag="مراقبة النظام والاتصال" Click="Navigate_Click"/>
+                        <Button Content="مركز الطوارئ" Tag="مركز الطوارئ" Click="Navigate_Click"/>
+                        <Button Content="الأخبار الاقتصادية" Tag="الأخبار الاقتصادية" Click="Navigate_Click"/>
+                        <Button Content="سجل التداول" Tag="سجل التداول" Click="Navigate_Click"/>
+                        <Button Content="التنبيهات" Tag="التنبيهات" Click="Navigate_Click"/>
+                        <Button Content="إعدادات الذكاء الاصطناعي" Tag="إعدادات الذكاء الاصطناعي" Click="Navigate_Click"/>
+                        <Button Content="ماذا لو؟ محاكاة السوق" Tag="ماذا لو؟ محاكاة السوق" Click="Navigate_Click"/>
+                        <Button Content="خريطة السيولة" Tag="خريطة السيولة" Click="Navigate_Click"/>
+                        <Button Content="توقع حركة الذهب" Tag="توقع حركة الذهب" Click="Navigate_Click"/>
+                        <Button Content="مقارنة الصفقات" Tag="مقارنة الصفقات" Click="Navigate_Click"/>
+                        <Button Content="منافسة الاستراتيجيات" Tag="منافسة الاستراتيجيات" Click="Navigate_Click"/>
+                        <Button Content="سجل التداول التحليلي" Tag="سجل التداول التحليلي" Click="Navigate_Click"/>
+                        <Button Content="المساعد الصوتي العربي" Tag="المساعد الصوتي العربي" Click="Navigate_Click"/>
+                        <Button Content="مركز التحكم الرئيسي" Tag="مركز التحكم الرئيسي" Click="Navigate_Click"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </DockPanel>
+        </Border>
+
+        <Grid Grid.Column="1" Margin="18,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Background="{StaticResource Panel}" CornerRadius="14"
+                    BorderBrush="#2D4535" BorderThickness="1" Padding="18" Margin="0,0,0,14">
+                <DockPanel>
+                    <StackPanel>
+                        <TextBlock x:Name="PageTitle" Text="الرئيسية" FontSize="27"
+                                   FontWeight="Bold" Foreground="{StaticResource Gold}"/>
+                        <TextBlock x:Name="PageDescription" Text="مركز مراقبة الذهب وإدارة التداول"
+                                   Foreground="{StaticResource Muted}" Margin="0,5,0,0"/>
+                    </StackPanel>
+                    <StackPanel DockPanel.Dock="Left" Orientation="Horizontal"
+                                VerticalAlignment="Center">
+                        <Border Background="#26372C" CornerRadius="8" Padding="12,8" Margin="0,0,10,0">
+                            <TextBlock x:Name="ConnectionStatus" Text="غير متصل"
+                                       Foreground="OrangeRed" FontWeight="Bold"/>
+                        </Border>
+                        <Button x:Name="ConnectButton" Content="تحديث اتصال MT5"
+                                Click="ConnectButton_Click" Background="{StaticResource Gold}"
+                                Foreground="#172017" BorderBrush="{StaticResource Gold}"
+                                Padding="16,10"/>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+
+            <UniformGrid Grid.Row="1" Columns="3" Margin="0,0,0,14">
+                <Border Background="{StaticResource Panel}" CornerRadius="12" Padding="16" Margin="0,0,8,0">
+                    <StackPanel>
+                        <TextBlock Text="حالة التداول" Foreground="{StaticResource Muted}"/>
+                        <TextBlock x:Name="TradingStatus" Text="متوقف" FontSize="23"
+                                   FontWeight="Bold" Foreground="{StaticResource Gold}" Margin="0,7,0,0"/>
+                    </StackPanel>
+                </Border>
+                <Border Background="{StaticResource Panel}" CornerRadius="12" Padding="16" Margin="0,0,8,0">
+                    <StackPanel>
+                        <TextBlock Text="الأداة المالية" Foreground="{StaticResource Muted}"/>
+                        <TextBlock Text="XAUUSD • GOLD" FontSize="22"
+                                   FontWeight="Bold" Foreground="{StaticResource Gold}" Margin="0,7,0,0"/>
+                    </StackPanel>
+                </Border>
+                <Border Background="{StaticResource Panel}" CornerRadius="12" Padding="16">
+                    <StackPanel>
+                        <TextBlock Text="وضع النظام" Foreground="{StaticResource Muted}"/>
+                        <TextBlock Text="مراقبة وتحليل MT5" FontSize="19"
+                                   FontWeight="Bold" Foreground="#A9D2B0" Margin="0,7,0,0"/>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+
+            <Border Grid.Row="2" Background="{StaticResource Panel}" CornerRadius="14"
+                    BorderBrush="#2D4535" BorderThickness="1" Padding="18">
+                <DockPanel>
+                    <Border DockPanel.Dock="Top" Background="#203529" CornerRadius="10"
+                            Padding="14" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock Text="مركز التحكم بالتداول" Foreground="{StaticResource Gold}"
+                                       FontSize="17" FontWeight="Bold" Margin="0,0,0,8"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="StartButton" Content="تشغيل التداول الآلي"
+                                        Click="StartButton_Click" Width="190" Height="46"
+                                        Background="#1D6948" BorderBrush="#4A9468"
+                                        Margin="0,0,8,0"/>
+                                <Button x:Name="StopButton" Content="إيقاف التداول"
+                                        Click="StopButton_Click" Width="160" Height="46"
+                                        Background="#783F37" BorderBrush="#A75B4D"/>
+                            </StackPanel>
+                            <TextBlock Text="زر التشغيل سيُفعّل بعد اكتمال ربط أوامر MT5 واختبار الحماية على حساب تجريبي."
+                                       Foreground="#E3C985" FontSize="12" Margin="0,8,0,0"
+                                       TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <TextBlock Text="حالة الاتصال والتحليل" Foreground="{StaticResource Gold}"
+                                       FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+                            <Border Background="#101A14" CornerRadius="10" Padding="16">
+                                <TextBlock x:Name="SectionInfo" Text="بانتظار بيانات MT5..."
+                                           FontSize="15" TextWrapping="Wrap" Foreground="#F3F0E7"/>
+                            </Border>
+                            <TextBlock Text="تفاصيل القسم" Foreground="{StaticResource Gold}"
+                                       FontSize="17" FontWeight="Bold" Margin="0,18,0,8"/>
+                            <StackPanel x:Name="PageContent"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+        </Grid>
+    </Grid>
 </Window>
