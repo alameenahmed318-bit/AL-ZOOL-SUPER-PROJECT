@@ -365,8 +365,10 @@ namespace ALZOOOOL
                         return;
                     }
 
-                    if ((item.Key == "addCount" || item.Key == "coolCount")
-                        && !int.TryParse(value, out _))
+                    if ((item.Key == "addCount" || item.Key == "coolCount" ||
+                         item.Key == "maxPositions" || item.Key == "cooldownSeconds")
+                        && !int.TryParse(value, NumberStyles.Integer,
+                            CultureInfo.InvariantCulture, out _))
                     {
                         MessageBox.Show("عدد الصفقات يجب أن يكون رقماً صحيحاً.");
                         item.Value.Focus();
@@ -1158,7 +1160,6 @@ namespace ALZOOOOL
 
                 pendingOrderId = "";
                 pendingOrderUtc = DateTime.MinValue;
-                await RefreshBridgeAsync(false);
             }
             catch (IOException)
             {
