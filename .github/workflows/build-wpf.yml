@@ -28,7 +28,7 @@ jobs:
         run: dotnet build "AL-ZOOL-SUPER-AI-Project-v3/AL-ZOOL-SUPER-AI/ALZOOOOL.csproj" --configuration Release --no-restore
 
       - name: Publish self-contained app
-        run: dotnet publish "AL-ZOOL-SUPER-AI-Project-v3/AL-ZOOL-SUPER-AI/ALZOOOOL.csproj" --configuration Release --no-restore --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o "${{ runner.temp }}/AL-ZOOL-Publish"
+        run: dotnet publish "AL-ZOOL-SUPER-AI-Project-v3/AL-ZOOL-SUPER-AI/ALZOOOOL.csproj" --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o "${{ runner.temp }}/AL-ZOOL-Publish"
 
       - name: Package ZIP
         shell: pwsh
