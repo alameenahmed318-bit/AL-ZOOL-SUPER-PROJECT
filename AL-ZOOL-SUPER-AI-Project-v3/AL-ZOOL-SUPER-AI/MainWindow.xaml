@@ -1,23 +1,23 @@
 <Window x:Class="ALZOOOOL.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="AL-ZOOL SUPER AI" Height="920" Width="1540"
-        MinHeight="760" MinWidth="1180"
+        Title="AL-ZOOL SUPER AI" Height="900" Width="1440" WindowState="Maximized"
+        MinHeight="600" MinWidth="960"
         WindowStartupLocation="CenterScreen"
-        Background="#0B100D" Foreground="#F4F1E8"
+        Background="#F4F5F9" Foreground="#29263A"
         FlowDirection="RightToLeft"
         FontFamily="Segoe UI">
     <Window.Resources>
-        <SolidColorBrush x:Key="Gold" Color="#D8B45A"/>
-        <SolidColorBrush x:Key="GoldSoft" Color="#8D7540"/>
-        <SolidColorBrush x:Key="Green" Color="#28734D"/>
-        <SolidColorBrush x:Key="GreenBright" Color="#3A9665"/>
-        <SolidColorBrush x:Key="Canvas" Color="#0B100D"/>
-        <SolidColorBrush x:Key="Sidebar" Color="#101A14"/>
-        <SolidColorBrush x:Key="Panel" Color="#151F19"/>
-        <SolidColorBrush x:Key="PanelAlt" Color="#1B2921"/>
-        <SolidColorBrush x:Key="Line" Color="#293B30"/>
-        <SolidColorBrush x:Key="Muted" Color="#9BA99F"/>
+        <SolidColorBrush x:Key="Gold" Color="#7657D6"/>
+        <SolidColorBrush x:Key="GoldSoft" Color="#A99BE0"/>
+        <SolidColorBrush x:Key="Green" Color="#7657D6"/>
+        <SolidColorBrush x:Key="GreenBright" Color="#9279E8"/>
+        <SolidColorBrush x:Key="Canvas" Color="#F4F5F9"/>
+        <SolidColorBrush x:Key="Sidebar" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="Panel" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="PanelAlt" Color="#F0EFF7"/>
+        <SolidColorBrush x:Key="Line" Color="#E4E1ED"/>
+        <SolidColorBrush x:Key="Muted" Color="#777487"/>
         <Style TargetType="Button">
             <Setter Property="Foreground" Value="#F4F1E8"/>
             <Setter Property="Background" Value="#203B2B"/>
@@ -42,8 +42,8 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="#2B573C"/>
-                                <Setter TargetName="Bd" Property="BorderBrush" Value="#D8B45A"/>
+                                <Setter TargetName="Bd" Property="Background" Value="#EEEAF9"/>
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="#7657D6"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter TargetName="Bd" Property="Opacity" Value="0.82"/>
@@ -79,9 +79,9 @@
         </Style>
     </Window.Resources>
 
-    <Grid Margin="16">
+    <Grid Margin="12">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="252"/>
+            <ColumnDefinition Width="230"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -90,35 +90,35 @@
                 BorderBrush="#263B2D" BorderThickness="1" Padding="14">
             <DockPanel LastChildFill="True">
                 <StackPanel DockPanel.Dock="Top">
-                    <Border Background="#1A2B20" BorderBrush="#69572F" BorderThickness="1"
+                    <Border Background="#F3F1FA" BorderBrush="#DDD7EF" BorderThickness="1"
                             CornerRadius="15" Padding="15" Margin="0,0,0,18">
                         <StackPanel>
                             <TextBlock Text="AZ" Foreground="{StaticResource Gold}"
                                        FontSize="33" FontWeight="ExtraBold" HorizontalAlignment="Right"/>
-                            <TextBlock Text="الــزول" Foreground="#F5F0E4"
+                            <TextBlock Text="الــزول" Foreground="#29263A"
                                        FontSize="23" FontWeight="Bold" Margin="0,-3,0,0"/>
-                            <TextBlock Text="SUPER AI  /  GOLD SYSTEM" Foreground="#AFC0B2"
+                            <TextBlock Text="SUPER AI  /  GOLD SYSTEM" Foreground="#777487"
                                        FontSize="9" Margin="0,7,0,0"/>
-                            <Border Height="1" Background="#40513D" Margin="0,12,0,9"/>
+                            <Border Height="1" Background="#E4E1ED" Margin="0,12,0,9"/>
                             <StackPanel Orientation="Horizontal">
                                 <Ellipse Width="7" Height="7" Fill="#D8B45A" Margin="0,0,7,0"/>
-                                <TextBlock Text="XAUUSD  •  GOLD" Foreground="#DCCB9C"
+                                <TextBlock Text="XAUUSD  •  GOLD" Foreground="#7657D6"
                                            FontSize="10" FontWeight="SemiBold"/>
                             </StackPanel>
                         </StackPanel>
                     </Border>
-                    <TextBlock Text="القائمة الرئيسية" Foreground="#8D9D91"
+                    <TextBlock Text="القائمة الرئيسية" Foreground="#777487"
                                FontSize="10" FontWeight="Bold" Margin="7,0,0,8"/>
                 </StackPanel>
                 <StackPanel DockPanel.Dock="Bottom" Margin="2,12,2,2">
-                    <Border Background="#17231B" CornerRadius="11" Padding="11">
+                    <Border Background="#F3F1FA" CornerRadius="11" Padding="11">
                         <StackPanel>
                             <TextBlock Text="حالة المنصة" Foreground="#87998D" FontSize="10"/>
-                            <TextBlock Text="MT5  •  مراقبة الاتصال" Foreground="#D8B45A"
+                            <TextBlock Text="MT5  •  مراقبة الاتصال" Foreground="#7657D6"
                                        FontSize="11" FontWeight="SemiBold" Margin="0,5,0,0"/>
                         </StackPanel>
                     </Border>
-                    <TextBlock Text="AL-ZOOL  |  BUILD 2026" Foreground="#637368"
+                    <TextBlock Text="AL-ZOOL  |  BUILD 2026" Foreground="#9290A0"
                                FontSize="9" HorizontalAlignment="Center" Margin="0,12,0,0"/>
                 </StackPanel>
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
@@ -131,7 +131,7 @@
                         <Button Style="{StaticResource NavButton}" Content="◉   قرارات الذكاء الاصطناعي" Tag="قرارات الذكاء الاصطناعي" Click="Navigate_Click"/>
                         <Button Style="{StaticResource NavButton}" Content="⇄   الصفقات المفتوحة" Tag="الصفقات المفتوحة" Click="Navigate_Click"/>
                         <Button Style="{StaticResource NavButton}" Content="⬡   إدارة المخاطر" Tag="إدارة المخاطر" Click="Navigate_Click"/>
-                        <TextBlock Text="إدارة النظام" Foreground="#8D9D91" FontSize="10"
+                        <TextBlock Text="إدارة النظام" Foreground="#777487" FontSize="10"
                                    FontWeight="Bold" Margin="7,15,0,7"/>
                         <Button Style="{StaticResource NavButton}" Content="⚙   الإعدادات الثابتة" Tag="الإعدادات الثابتة" Click="Navigate_Click"/>
                         <Button Style="{StaticResource NavButton}" Content="↗   اللوت والتعزيز والتبريد" Tag="اللوت والتعزيز والتبريد" Click="Navigate_Click"/>
@@ -139,7 +139,7 @@
                         <Button Style="{StaticResource NavButton}" Content="◌   ذاكرة الذكاء الاصطناعي" Tag="ذاكرة الذكاء الاصطناعي" Click="Navigate_Click"/>
                         <Button Style="{StaticResource NavButton}" Content="⌘   مراقبة النظام والاتصال" Tag="مراقبة النظام والاتصال" Click="Navigate_Click"/>
                         <Button Style="{StaticResource NavButton}" Content="⚠   مركز الطوارئ" Tag="مركز الطوارئ" Click="Navigate_Click"/>
-                        <TextBlock Text="أدوات متقدمة" Foreground="#8D9D91" FontSize="10"
+                        <TextBlock Text="أدوات متقدمة" Foreground="#777487" FontSize="10"
                                    FontWeight="Bold" Margin="7,15,0,7"/>
                         <Button Style="{StaticResource NavButton}" Content="◷   الأخبار الاقتصادية" Tag="الأخبار الاقتصادية" Click="Navigate_Click"/>
                         <Button Style="{StaticResource NavButton}" Content="☷   سجل التداول" Tag="سجل التداول" Click="Navigate_Click"/>
@@ -174,22 +174,22 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" VerticalAlignment="Center">
                     <TextBlock x:Name="PageTitle" Text="الرئيسية" FontSize="27"
-                               FontWeight="Bold" Foreground="#F4F0E5"/>
+                               FontWeight="Bold" Foreground="#29263A"/>
                     <TextBlock x:Name="PageDescription" Text="مركز قيادة الذهب — رؤية واضحة وتحكم كامل"
                                Foreground="{StaticResource Muted}" FontSize="12" Margin="0,5,0,0"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Border Background="#17231B" BorderBrush="#314738" BorderThickness="1"
+                    <Border Background="#F3F1FA" BorderBrush="#DDD7EF" BorderThickness="1"
                             CornerRadius="10" Padding="13,10" Margin="0,0,9,0">
                         <StackPanel Orientation="Horizontal">
                             <Ellipse Width="8" Height="8" Fill="#D17B55" Margin="0,0,8,0"/>
                             <TextBlock x:Name="ConnectionStatus" Text="غير متصل"
-                                       Foreground="#E5B18E" FontWeight="SemiBold" FontSize="12"/>
+                                       Foreground="#7657D6" FontWeight="SemiBold" FontSize="12"/>
                         </StackPanel>
                     </Border>
                     <Button x:Name="ConnectButton" Content="ربط / تحديث MT5"
-                            Click="ConnectButton_Click" Background="#D8B45A"
-                            Foreground="#182017" BorderBrush="#D8B45A"
+                            Click="ConnectButton_Click" Background="#7657D6"
+                            Foreground="#FFFFFF" BorderBrush="#7657D6"
                             Padding="18,12" MinWidth="150"/>
                 </StackPanel>
             </Grid>
@@ -205,9 +205,9 @@
                             <TextBlock Text="حالة التداول" Style="{StaticResource SmallLabel}"/>
                             <TextBlock x:Name="TradingStatus" Text="متوقف" FontSize="25"
                                        FontWeight="Bold" Foreground="{StaticResource Gold}" Margin="0,8,0,0"/>
-                            <TextBlock Text="حالة محرك التداول" Foreground="#74877A" FontSize="10" Margin="0,3,0,0"/>
+                            <TextBlock Text="حالة محرك التداول" Foreground="#89869A" FontSize="10" Margin="0,3,0,0"/>
                         </StackPanel>
-                        <Border Grid.Column="1" Background="#26382B" CornerRadius="12"
+                        <Border Grid.Column="1" Background="#EEEAF9" CornerRadius="12"
                                 Width="40" Height="40" VerticalAlignment="Top">
                             <TextBlock Text="Ⅱ" Foreground="{StaticResource Gold}" FontSize="20"
                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -223,10 +223,10 @@
                         <StackPanel>
                             <TextBlock Text="الأداة النشطة" Style="{StaticResource SmallLabel}"/>
                             <TextBlock Text="XAUUSD" FontSize="25" FontWeight="Bold"
-                                       Foreground="#E9E4D8" Margin="0,8,0,0"/>
-                            <TextBlock Text="GOLD  /  الذهب" Foreground="#74877A" FontSize="10" Margin="0,3,0,0"/>
+                                       Foreground="#29263A" Margin="0,8,0,0"/>
+                            <TextBlock Text="GOLD  /  الذهب" Foreground="#89869A" FontSize="10" Margin="0,3,0,0"/>
                         </StackPanel>
-                        <Border Grid.Column="1" Background="#26382B" CornerRadius="12"
+                        <Border Grid.Column="1" Background="#EEEAF9" CornerRadius="12"
                                 Width="40" Height="40" VerticalAlignment="Top">
                             <TextBlock Text="◆" Foreground="{StaticResource Gold}" FontSize="17"
                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -242,19 +242,19 @@
                         <StackPanel>
                             <TextBlock Text="وضع النظام" Style="{StaticResource SmallLabel}"/>
                             <TextBlock Text="مراقبة وتحليل" FontSize="22" FontWeight="Bold"
-                                       Foreground="#A9D2B0" Margin="0,8,0,0"/>
-                            <TextBlock Text="قراءة بيانات منصة MT5" Foreground="#74877A" FontSize="10" Margin="0,3,0,0"/>
+                                       Foreground="#7657D6" Margin="0,8,0,0"/>
+                            <TextBlock Text="قراءة بيانات منصة MT5" Foreground="#89869A" FontSize="10" Margin="0,3,0,0"/>
                         </StackPanel>
-                        <Border Grid.Column="1" Background="#26382B" CornerRadius="12"
+                        <Border Grid.Column="1" Background="#EEEAF9" CornerRadius="12"
                                 Width="40" Height="40" VerticalAlignment="Top">
-                            <TextBlock Text="◉" Foreground="#A9D2B0" FontSize="20"
+                            <TextBlock Text="◉" Foreground="#7657D6" FontSize="20"
                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </Grid>
                 </Border>
             </UniformGrid>
 
-            <Border Grid.Row="2" Background="#17251B" BorderBrush="#65542F"
+            <Border Grid.Row="2" Background="#F5F3FA" BorderBrush="#DCD6ED"
                     BorderThickness="1" CornerRadius="16" Padding="17" Margin="0,0,0,14">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -263,25 +263,25 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
-                            <Border Background="#2A3B2B" CornerRadius="5" Padding="7,3" Margin="0,0,8,0">
+                            <Border Background="#EAE5F8" CornerRadius="5" Padding="7,3" Margin="0,0,8,0">
                                 <TextBlock Text="CONTROL" Foreground="{StaticResource Gold}"
                                            FontSize="9" FontWeight="Bold"/>
                             </Border>
-                            <TextBlock Text="مركز التحكم بالتداول" Foreground="#F0E8D4"
+                            <TextBlock Text="مركز التحكم بالتداول" Foreground="#29263A"
                                        FontSize="17" FontWeight="Bold"/>
                         </StackPanel>
                         <TextBlock Text="التشغيل الآلي غير متاح حالياً — لن يتم إرسال أوامر قبل اكتمال الربط واختبار الحماية."
-                                   Foreground="#B9B29A" FontSize="11" Margin="0,7,0,0"
+                                   Foreground="#777487" FontSize="11" Margin="0,7,0,0"
                                    TextWrapping="Wrap"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
                                 Margin="15,0,0,0">
                         <Button x:Name="StartButton" Content="▶   تشغيل التداول الآلي"
                                 Click="StartButton_Click" Width="190" Height="45"
-                                Background="#28734D" BorderBrush="#469568" Margin="0,0,8,0"/>
+                                Background="#7657D6" BorderBrush="#9279E8" Margin="0,0,8,0"/>
                         <Button x:Name="StopButton" Content="■   إيقاف التداول"
                                 Click="StopButton_Click" Width="155" Height="45"
-                                Background="#713E37" BorderBrush="#A45C50"/>
+                                Background="#FCEEEF" BorderBrush="#E4B7BE"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -295,23 +295,23 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel>
-                            <TextBlock Text="مساحة العمل" Foreground="#F0E8D4"
+                            <TextBlock Text="مساحة العمل" Foreground="#29263A"
                                        FontSize="18" FontWeight="Bold"/>
                             <TextBlock Text="المعلومات والنتائج الخاصة بالقسم المختار"
                                        Foreground="{StaticResource Muted}" FontSize="11" Margin="0,4,0,0"/>
                         </StackPanel>
                         <Border Grid.Column="1" Background="#202D24" CornerRadius="8" Padding="10,6"
                                 VerticalAlignment="Center">
-                            <TextBlock Text="LIVE WORKSPACE" Foreground="#A9B99E"
+                            <TextBlock Text="LIVE WORKSPACE" Foreground="#7657D6"
                                        FontSize="9" FontWeight="Bold"/>
                         </Border>
                     </Grid>
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                         <StackPanel>
-                            <Border Background="#101912" BorderBrush="#2B4433" BorderThickness="1"
+                            <Border Background="#F6F4FB" BorderBrush="#E1DCEF" BorderThickness="1"
                                     CornerRadius="12" Padding="18" Margin="0,0,0,16">
                                 <TextBlock x:Name="SectionInfo" Text="بانتظار بيانات MT5..."
-                                           FontSize="14" TextWrapping="Wrap" Foreground="#EDE9DF"
+                                           FontSize="14" TextWrapping="Wrap" Foreground="#373348"
                                            LineHeight="25"/>
                             </Border>
                             <TextBlock Text="تفاصيل القسم" Foreground="{StaticResource Gold}"
