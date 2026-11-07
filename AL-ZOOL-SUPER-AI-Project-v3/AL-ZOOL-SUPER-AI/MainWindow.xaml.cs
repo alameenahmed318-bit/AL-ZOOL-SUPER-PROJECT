@@ -1003,7 +1003,7 @@ namespace ALZOOOOL
                 ? Brushes.LightGreen : Brushes.OrangeRed;
 
             // Execution remains disabled until demo order routing and risk checks pass.
-            StartButton.IsEnabled = connected && mt5Demo && !tradingControl.IsRunning;
+            StartButton.IsEnabled = connected && !tradingControl.IsRunning;
 
             if (!connected && tradingControl.IsRunning)
                 await tradingControl.StopAsync(() => Task.CompletedTask);
@@ -1025,9 +1025,9 @@ namespace ALZOOOOL
         private void StartButton_Click(
             object sender, RoutedEventArgs e)
         {
-            if (!mt5Connected || !mt5Demo)
+            if (!mt5Connected)
             {
-                MessageBox.Show("التشغيل متاح حالياً على حساب MT5 تجريبي فقط لاختبار الجسر بأمان.",
+                MessageBox.Show("يجب الاتصال بحساب MT5 أولاً.",
                     "حماية الحساب", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -1046,7 +1046,7 @@ namespace ALZOOOOL
 
         private async Task TradeCycleAsync()
         {
-            if (!tradingControl.IsRunning || !mt5Connected || !mt5Demo)
+            if (!tradingControl.IsRunning || !mt5Connected)
                 return;
 
             if (latestAnalysis == null || latestAnalysis.BestStrategy == null)
@@ -1107,7 +1107,7 @@ namespace ALZOOOOL
             await tradingControl.StopAsync(
                 () => Task.CompletedTask);
             TradingStatus.Text = "متوقف";
-            StartButton.IsEnabled = mt5Connected && mt5Demo;
+            StartButton.IsEnabled = mt5Connected;
         }
     }
 }
