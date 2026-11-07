@@ -8,4 +8,17 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <!-- Ship the MT5 Expert Advisor source with the Windows application.
+         The user must compile it in MetaEditor and attach it to an XAUUSD chart. -->
+    <None Update="MT5\ALZOOL_BRIDGE.mq5"
+          CopyToOutputDirectory="PreserveNewest"
+          CopyToPublishDirectory="PreserveNewest"
+          Link="MT5\ALZOOL_BRIDGE.mq5" />
+    <None Update="MT5\INSTALL-AR.txt"
+          CopyToOutputDirectory="PreserveNewest"
+          CopyToPublishDirectory="PreserveNewest"
+          Link="MT5\INSTALL-AR.txt" />
+  </ItemGroup>
+
 </Project>
