@@ -1,6 +1,6 @@
 #property strict
 #property version "1.20"
-#property description "AL-ZOOL MT5 bridge: market data plus guarded demo command execution"
+#property description "AL-ZOOL MT5 bridge: market data and command execution on connected MT5 accounts"
 
 #include <Trade/Trade.mqh>
 
@@ -18,10 +18,6 @@ bool IsGoldSymbol(const string symbol)
            (StringFind(s, "XAU") >= 0 && StringFind(s, "USD") >= 0));
 }
 
-bool IsDemoAccount()
-{
-   return (AccountInfoInteger(ACCOUNT_TRADE_MODE) == ACCOUNT_TRADE_MODE_DEMO);
-}
 
 void WriteStatus()
 {
@@ -117,14 +113,6 @@ void ProcessCommand()
       return;
    }
 
-   // First deployment is deliberately demo-only until order routing and risk controls
-   // have been validated on the user's broker and symbol contract.
-   if(!IsDemoAccount())
-   {
-      WriteResult(id, "REJECTED_LIVE_ACCOUNT_DEMO_TEST_REQUIRED");
-      return;
-   }
-
    trade.SetDeviationInPoints(MaxDeviationPoints);
    bool ok = false;
 
@@ -183,7 +171,7 @@ int OnInit()
    trade.SetDeviationInPoints(MaxDeviationPoints);
    EventSetTimer(MathMax(1, TimerSeconds));
    Print("AL-ZOOL bridge started on ", _Symbol,
-         ". Order commands are accepted on DEMO accounts only.");
+         ". Order commands are accepted on the connected trading account.");
    return INIT_SUCCEEDED;
 }
 
