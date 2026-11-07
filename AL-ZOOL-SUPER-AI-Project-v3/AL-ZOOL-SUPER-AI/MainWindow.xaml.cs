@@ -853,7 +853,7 @@ namespace ALZOOOOL
         private string GetSectionDetails(string section) => section switch
         {
             "عقل الذكاء الاصطناعي" => "الوحدات المطلوبة: تحليل السوق، إدارة الصفقات، وحماية رأس المال. الأولوية للحماية. هذه النسخة لا تدّعي تشغيل نموذج ذكاء اصطناعي أو اتخاذ قرارات تداول فعلية.",
-            "تحليل السوق" => "يلزم توفير شموع XAUUSD ومؤشرات السوق. الجسر الحالي يقرأ السعر والرصيد والصفقات فقط، ولا يرسل بيانات الشموع.",
+            "تحليل السوق" => "الجسر يصدّر شموع XAUUSD على إطار M1 إلى ملف candles.csv. يحتاج المحرك إلى 60 شمعة على الأقل للتحليل الكامل؛ إذا لم تصل، افحص سجل Experts في MT5 ورسائل AL-ZOOL.",
             "قرارات الذكاء الاصطناعي" => "لن يتم اختلاق BUY أو SELL أو WAIT. لا توجد إشارة فعلية حتى يتم ربط بيانات الشموع ومحرك التحليل.",
             "الصفقات المفتوحة" => "الجسر الحالي يرسل عدد الصفقات فقط، ولا يرسل تفاصيل كل صفقة أو يسمح بتعديلها أو إغلاقها.",
             "إدارة المخاطر" => "يمكنك ضبط الحدود من صفحة الإعدادات الثابتة. الحفظ محلي ولا يغيّر إعدادات حساب Deriv تلقائياً.",
@@ -972,9 +972,15 @@ namespace ALZOOOOL
                                     !string.IsNullOrWhiteSpace(server) &&
                                     IsGoldSymbol(symbol);
 
+                                int candleCount = 0;
                                 if (connected)
                                 {
-                                    try { latestAnalysis = StrategyEngine.Analyze(ReadBridgeCandles()); }
+                                    try
+                                    {
+                                        List<Candle> candles = ReadBridgeCandles();
+                                        candleCount = candles.Count;
+                                        latestAnalysis = StrategyEngine.Analyze(candles);
+                                    }
                                     catch { latestAnalysis = null; }
                                 }
 
@@ -988,8 +994,9 @@ namespace ALZOOOOL
                                         $"سعر الشراء: {ask:F2}\n" +
                                         $"سعر البيع: {bid:F2}\n" +
                                         $"عدد الصفقات: {positions}\n" +
+                                        $"شموع الذهب M1 المستلمة: {candleCount} من 60 مطلوبة للتحليل الكامل.\n" +
                                         (latestAnalysis == null
-                                            ? "تحليل السوق: بانتظار 60 شمعة من MT5."
+                                            ? "تحليل السوق: بانتظار اكتمال بيانات الشموع."
                                             : $"تحليل الذهب M1: {latestAnalysis.Description}\n" +
                                               $"RSI: {latestAnalysis.Rsi:F1} | ADX: {latestAnalysis.Adx:F1}\n" +
                                               $"قرار المحرك: {latestAnalysis.BestStrategy.Signal} - {latestAnalysis.BestStrategy.Name}\n" +
