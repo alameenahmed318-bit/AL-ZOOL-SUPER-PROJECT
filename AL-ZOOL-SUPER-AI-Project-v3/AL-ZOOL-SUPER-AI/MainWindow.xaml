@@ -98,7 +98,7 @@
                             <TextBlock Text="الــزول" Foreground="#F5F0E4"
                                        FontSize="23" FontWeight="Bold" Margin="0,-3,0,0"/>
                             <TextBlock Text="SUPER AI  /  GOLD SYSTEM" Foreground="#AFC0B2"
-                                       FontSize="9" CharacterSpacing="90" Margin="0,7,0,0"/>
+                                       FontSize="9" Margin="0,7,0,0"/>
                             <Border Height="1" Background="#40513D" Margin="0,12,0,9"/>
                             <StackPanel Orientation="Horizontal">
                                 <Ellipse Width="7" Height="7" Fill="#D8B45A" Margin="0,0,7,0"/>
