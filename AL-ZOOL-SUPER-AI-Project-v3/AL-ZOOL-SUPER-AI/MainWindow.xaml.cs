@@ -107,6 +107,7 @@ namespace ALZOOOOL
             InitializeComponent();
 
             settings = LoadSettings();
+            BuildSectionPage("الرئيسية");
 
             tradingControl.TradingStateChanged += isRunning =>
             {
@@ -963,6 +964,8 @@ namespace ALZOOOOL
                                 string server = fields[1].Trim();
                                 string symbol = fields[4].Trim();
                                 openPositions = positions;
+                                BalanceValue.Text = balance.ToString("N2", CultureInfo.InvariantCulture);
+                                OpenPositionsValue.Text = positions.ToString(CultureInfo.InvariantCulture);
 
                                 connected =
                                     !string.IsNullOrWhiteSpace(login) &&
