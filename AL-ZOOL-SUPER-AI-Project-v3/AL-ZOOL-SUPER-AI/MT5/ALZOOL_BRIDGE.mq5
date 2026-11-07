@@ -1,5 +1,5 @@
 #property strict
-#property version "1.20"
+#property version "1.21"
 #property description "AL-ZOOL MT5 bridge: market data and command execution on connected MT5 accounts"
 
 #include <Trade/Trade.mqh>
@@ -63,15 +63,34 @@ void WriteCandles()
 {
    MqlRates rates[];
    ArraySetAsSeries(rates, false);
-   int copied = CopyRates(_Symbol, PERIOD_M1, 0, MathMax(60, CandleCount), rates);
-   if(copied < 60) return;
+
+   // Request history on every timer tick. MT5 may initially return fewer
+   // bars while it downloads the M1 history; still publish every bar received.
+   int requested = MathMax(1, CandleCount);
+   ResetLastError();
+   int copied = CopyRates(_Symbol, PERIOD_M1, 0, requested, rates);
+   int copyError = GetLastError();
+
+   if(copied <= 0)
+   {
+      Print("AL-ZOOL candle history not ready. Symbol=", _Symbol,
+            " timeframe=M1 bars=", Bars(_Symbol, PERIOD_M1),
+            " copied=", copied, " error=", copyError);
+      return;
+   }
 
    int h = FileOpen("ALZOOL\\candles.csv",
-      FILE_WRITE | FILE_CSV | FILE_COMMON | FILE_ANSI | FILE_SHARE_READ,
+      FILE_WRITE | FILE_CSV | FILE_COMMON | FILE_ANSI |
+      FILE_SHARE_READ | FILE_SHARE_WRITE,
       ';');
-   if(h == INVALID_HANDLE) return;
+   if(h == INVALID_HANDLE)
+   {
+      Print("AL-ZOOL candles.csv open failed. error=", GetLastError());
+      return;
+   }
 
    for(int i = 0; i < copied; i++)
+   {
       FileWrite(h,
          TimeToString(rates[i].time, TIME_DATE | TIME_MINUTES),
          DoubleToString(rates[i].open, _Digits),
@@ -79,7 +98,13 @@ void WriteCandles()
          DoubleToString(rates[i].low, _Digits),
          DoubleToString(rates[i].close, _Digits),
          (long)rates[i].tick_volume);
+   }
+   FileFlush(h);
    FileClose(h);
+
+   if(copied < 60)
+      Print("AL-ZOOL published ", copied,
+            " M1 candles; waiting for at least 60. CopyRates error=", copyError);
 }
 
 void WriteResult(const string id, const string result)
