@@ -3,23 +3,23 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="AL-ZOOL FUTURE TERMINAL" Width="1440" Height="900"
         MinWidth="980" MinHeight="620" WindowState="Maximized"
-        WindowStartupLocation="CenterScreen" Background="#F1F2F7"
-        Foreground="#252438" FlowDirection="RightToLeft"
+        WindowStartupLocation="CenterScreen" Background="#121212"
+        Foreground="#F2F2F2" FlowDirection="RightToLeft"
         FontFamily="Segoe UI" UseLayoutRounding="True" SnapsToDevicePixels="True">
     <Window.Resources>
-        <SolidColorBrush x:Key="Accent" Color="#7657F6"/>
-        <SolidColorBrush x:Key="AccentDark" Color="#5635D8"/>
-        <SolidColorBrush x:Key="AccentSoft" Color="#EEEAFE"/>
-        <SolidColorBrush x:Key="Canvas" Color="#F1F2F7"/>
-        <SolidColorBrush x:Key="Surface" Color="#FFFFFF"/>
-        <SolidColorBrush x:Key="SurfaceAlt" Color="#F7F7FB"/>
-        <SolidColorBrush x:Key="Stroke" Color="#E5E5EF"/>
-        <SolidColorBrush x:Key="Ink" Color="#252438"/>
-        <SolidColorBrush x:Key="Muted" Color="#85849A"/>
+        <SolidColorBrush x:Key="Accent" Color="#D6B45A"/>
+        <SolidColorBrush x:Key="AccentDark" Color="#A88735"/>
+        <SolidColorBrush x:Key="AccentSoft" Color="#302A19"/>
+        <SolidColorBrush x:Key="Canvas" Color="#121212"/>
+        <SolidColorBrush x:Key="Surface" Color="#1A1A1A"/>
+        <SolidColorBrush x:Key="SurfaceAlt" Color="#222222"/>
+        <SolidColorBrush x:Key="Stroke" Color="#333333"/>
+        <SolidColorBrush x:Key="Ink" Color="#F2F2F2"/>
+        <SolidColorBrush x:Key="Muted" Color="#A6A6A6"/>
         <Style TargetType="{x:Type Button}">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <Setter Property="Background" Value="#7657F6"/>
-            <Setter Property="BorderBrush" Value="#7657F6"/>
+            <Setter Property="Foreground" Value="#1A1A1A"/>
+            <Setter Property="Background" Value="#D6B45A"/>
+            <Setter Property="BorderBrush" Value="#D6B45A"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="12,8"/>
             <Setter Property="Margin" Value="0,2"/>
@@ -54,7 +54,7 @@
         <Style x:Key="NavButton" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#5F5E73"/>
+            <Setter Property="Foreground" Value="#D2D2D2"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Setter Property="Padding" Value="11,8"/>
             <Setter Property="Margin" Value="0,1"/>
@@ -62,14 +62,14 @@
             <Setter Property="FontWeight" Value="Normal"/>
         </Style>
         <Style x:Key="MetricCard" TargetType="{x:Type Border}">
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="#E5E5EF"/>
+            <Setter Property="Background" Value="#1A1A1A"/>
+            <Setter Property="BorderBrush" Value="#333333"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="11"/>
             <Setter Property="Padding" Value="13"/>
         </Style>
         <Style x:Key="SmallLabel" TargetType="{x:Type TextBlock}">
-            <Setter Property="Foreground" Value="#85849A"/>
+            <Setter Property="Foreground" Value="#A6A6A6"/>
             <Setter Property="FontSize" Value="10.5"/>
         </Style>
     </Window.Resources>
@@ -81,15 +81,15 @@
         </Grid.ColumnDefinitions>
 
         <!-- Navigation rail -->
-        <Border Grid.Column="0" Background="#FFFFFF" BorderBrush="#E4E4ED"
+        <Border Grid.Column="0" Background="#171717" BorderBrush="#333333"
                 BorderThickness="0,0,1,0">
             <DockPanel LastChildFill="True" Margin="12,14,12,12">
                 <StackPanel DockPanel.Dock="Top">
                     <Border CornerRadius="13" Padding="12" Margin="0,0,0,18">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="#292343" Offset="0"/>
-                                <GradientStop Color="#6448D9" Offset="1"/>
+                                <GradientStop Color="#151515" Offset="0"/>
+                                <GradientStop Color="#3B321C" Offset="1"/>
                             </LinearGradientBrush>
                         </Border.Background>
                         <Grid>
@@ -97,29 +97,29 @@
                                 <ColumnDefinition Width="42"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Border Width="36" Height="36" CornerRadius="10" Background="#FFFFFF"
+                            <Border Width="36" Height="36" CornerRadius="10" Background="#1A1A1A"
                                     VerticalAlignment="Center">
                                 <Viewbox Margin="8">
                                     <Path Data="M 2,15 L 12,2 L 22,15 L 12,28 Z M 12,8 L 17,15 L 12,22 L 7,15 Z"
-                                          Fill="#7657F6" Stretch="Uniform"/>
+                                          Fill="#D6B45A" Stretch="Uniform"/>
                                 </Viewbox>
                             </Border>
                             <StackPanel Grid.Column="1" Margin="9,0,0,0" VerticalAlignment="Center">
                                 <TextBlock Text="AL-ZOOL" Foreground="White" FontSize="15"
                                            FontWeight="ExtraBold"/>
-                                <TextBlock Text="FUTURE TERMINAL" Foreground="#D9D2FF"
+                                <TextBlock Text="FUTURE TERMINAL" Foreground="#E9D99E"
                                            FontSize="8.5" Margin="0,2,0,0"/>
                             </StackPanel>
                         </Grid>
                     </Border>
-                    <TextBlock Text="WORKSPACE" Foreground="#A09FB0" FontSize="9"
+                    <TextBlock Text="WORKSPACE" Foreground="#929292" FontSize="9"
                                FontWeight="Bold" Margin="7,0,0,7"/>
                 </StackPanel>
                 <StackPanel DockPanel.Dock="Bottom" Margin="1,10,1,0">
-                    <Border Background="#F5F4FB" CornerRadius="9" Padding="10">
+                    <Border Background="#242424" CornerRadius="9" Padding="10">
                         <StackPanel>
-                            <TextBlock Text="MT5 CONNECTION" Foreground="#9291A4" FontSize="8"/>
-                            <TextBlock Text="●  LIVE LINK STATUS" Foreground="#7657F6"
+                            <TextBlock Text="MT5 CONNECTION" Foreground="#9A9A9A" FontSize="8"/>
+                            <TextBlock Text="●  LIVE LINK STATUS" Foreground="#D6B45A"
                                        FontSize="9.5" FontWeight="SemiBold" Margin="0,5,0,0"/>
                         </StackPanel>
                     </Border>
@@ -136,7 +136,7 @@
                         <Button Style="{StaticResource NavButton}" Content="◉   قرارات الذكاء الاصطناعي" Tag="قرارات الذكاء الاصطناعي" Click="Navigate_Click"/>
                         <Button Style="{StaticResource NavButton}" Content="⇄   الصفقات المفتوحة" Tag="الصفقات المفتوحة" Click="Navigate_Click"/>
                         <Button Style="{StaticResource NavButton}" Content="⬡   إدارة المخاطر" Tag="إدارة المخاطر" Click="Navigate_Click"/>
-                        <TextBlock Text="SYSTEM" Foreground="#A09FB0" FontSize="9"
+                        <TextBlock Text="SYSTEM" Foreground="#929292" FontSize="9"
                                    FontWeight="Bold" Margin="7,14,0,6"/>
                         <Button Style="{StaticResource NavButton}" Content="⚙   الإعدادات الثابتة" Tag="الإعدادات الثابتة" Click="Navigate_Click"/>
                         <Button Style="{StaticResource NavButton}" Content="↗   اللوت والتعزيز والتبريد" Tag="اللوت والتعزيز والتبريد" Click="Navigate_Click"/>
@@ -144,7 +144,7 @@
                         <Button Style="{StaticResource NavButton}" Content="◌   ذاكرة الذكاء الاصطناعي" Tag="ذاكرة الذكاء الاصطناعي" Click="Navigate_Click"/>
                         <Button Style="{StaticResource NavButton}" Content="⌘   مراقبة النظام والاتصال" Tag="مراقبة النظام والاتصال" Click="Navigate_Click"/>
                         <Button Style="{StaticResource NavButton}" Content="⚠   مركز الطوارئ" Tag="مركز الطوارئ" Click="Navigate_Click"/>
-                        <TextBlock Text="ADVANCED TOOLS" Foreground="#A09FB0" FontSize="9"
+                        <TextBlock Text="ADVANCED TOOLS" Foreground="#929292" FontSize="9"
                                    FontWeight="Bold" Margin="7,14,0,6"/>
                         <Button Style="{StaticResource NavButton}" Content="◷   الأخبار الاقتصادية" Tag="الأخبار الاقتصادية" Click="Navigate_Click"/>
                         <Button Style="{StaticResource NavButton}" Content="☷   سجل التداول" Tag="سجل التداول" Click="Navigate_Click"/>
@@ -168,6 +168,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -178,15 +179,15 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock x:Name="PageTitle" Text="الرئيسية" FontSize="21"
-                               FontWeight="Bold" Foreground="#252438"/>
+                               FontWeight="Bold" Foreground="#F2F2F2"/>
                     <TextBlock x:Name="PageDescription" Text="منصة ذكية لمراقبة وتحليل الذهب"
-                               Foreground="#85849A" FontSize="10.5" Margin="0,3,0,0"/>
+                               Foreground="#A6A6A6" FontSize="10.5" Margin="0,3,0,0"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Border Background="#FFFFFF" BorderBrush="#E5E5EF" BorderThickness="1"
+                    <Border Background="#1A1A1A" BorderBrush="#333333" BorderThickness="1"
                             CornerRadius="8" Padding="10,7" Margin="0,0,8,0">
                         <StackPanel Orientation="Horizontal">
-                            <Ellipse Width="7" Height="7" Fill="#D58A56" Margin="0,0,7,0"/>
+                            <Ellipse Width="7" Height="7" Fill="#D6B45A" Margin="0,0,7,0"/>
                             <TextBlock x:Name="ConnectionStatus" Text="غير متصل"
                                        Foreground="#625F78" FontSize="10.5" FontWeight="SemiBold"/>
                         </StackPanel>
@@ -196,7 +197,36 @@
                 </StackPanel>
             </Grid>
 
-            <Border Grid.Row="1" Background="#FFFFFF" BorderBrush="#E5E5EF"
+ 
+            <UniformGrid Grid.Row="1" Columns="3" Margin="0,0,0,10">
+                <Border Background="#1A1A1A" BorderBrush="#333333" BorderThickness="1"
+                        CornerRadius="10" Padding="14" Margin="0,0,6,0">
+                    <StackPanel>
+                        <TextBlock Text="إجمالي رصيد الحساب" Foreground="#A6A6A6" FontSize="10"/>
+                        <TextBlock x:Name="BalanceValue" Text="—" Foreground="#F2F2F2"
+                                   FontSize="22" FontWeight="Bold" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Border>
+                <Border Background="#1A1A1A" BorderBrush="#333333" BorderThickness="1"
+                        CornerRadius="10" Padding="14" Margin="3,0">
+                    <StackPanel>
+                        <TextBlock Text="أرباح اليوم" Foreground="#A6A6A6" FontSize="10"/>
+                        <TextBlock x:Name="TodayProfitValue" Text="غير متاح من الجسر الحالي"
+                                   Foreground="#D6B45A" FontSize="14" FontWeight="Bold"
+                                   Margin="0,8,0,0" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
+                <Border Background="#1A1A1A" BorderBrush="#333333" BorderThickness="1"
+                        CornerRadius="10" Padding="14" Margin="6,0,0,0">
+                    <StackPanel>
+                        <TextBlock Text="الصفقات النشطة" Foreground="#A6A6A6" FontSize="10"/>
+                        <TextBlock x:Name="OpenPositionsValue" Text="0"
+                                   Foreground="#D6B45A" FontSize="22" FontWeight="Bold"
+                                   Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+            <Border Grid.Row="2" Background="#1A1A1A" BorderBrush="#333333"
                     BorderThickness="1" CornerRadius="10" Padding="10,8" Margin="0,0,0,10">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -204,14 +234,14 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <Border Width="5" Height="27" Background="#7657F6" CornerRadius="3" Margin="0,0,9,0"/>
+                        <Border Width="5" Height="27" Background="#D6B45A" CornerRadius="3" Margin="0,0,9,0"/>
                         <StackPanel>
                             <TextBlock Text="TRADE CONTROL" Foreground="#8A889E"
                                        FontSize="8" FontWeight="Bold"/>
                             <TextBlock Text="مركز التحكم بالتداول" Foreground="#29273E"
                                        FontSize="12" FontWeight="Bold" Margin="0,2,0,0"/>
                         </StackPanel>
-                        <TextBlock x:Name="TradingStatus" Text="متوقف" Foreground="#7657F6"
+                        <TextBlock x:Name="TradingStatus" Text="متوقف" Foreground="#D6B45A"
                                    FontSize="10" FontWeight="Bold" Margin="16,0,0,0"
                                    VerticalAlignment="Center"/>
                     </StackPanel>
@@ -227,20 +257,20 @@
                 </Grid>
             </Border>
 
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Border Grid.Row="0" Background="#FFFFFF" BorderBrush="#E5E5EF"
+                <Border Grid.Row="0" Background="#1A1A1A" BorderBrush="#333333"
                         BorderThickness="1" CornerRadius="10" Padding="11,8" Margin="0,0,0,9">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Border Background="#F0EDFF" CornerRadius="7" Padding="8,5" Margin="0,0,9,0">
-                            <TextBlock Text="LIVE DATA" Foreground="#7657F6"
+                        <Border Background="#302A19" CornerRadius="7" Padding="8,5" Margin="0,0,9,0">
+                            <TextBlock Text="LIVE DATA" Foreground="#D6B45A"
                                        FontSize="8" FontWeight="Bold"/>
                         </Border>
                         <TextBlock x:Name="SectionInfo" Grid.Column="1"
@@ -249,7 +279,7 @@
                                    VerticalAlignment="Center"/>
                     </Grid>
                 </Border>
-                <Border Grid.Row="1" Background="#FFFFFF" BorderBrush="#E5E5EF"
+                <Border Grid.Row="1" Background="#1A1A1A" BorderBrush="#333333"
                         BorderThickness="1" CornerRadius="11" Padding="14">
                     <DockPanel LastChildFill="True">
                         <Grid DockPanel.Dock="Top" Margin="0,0,0,10">
@@ -260,7 +290,7 @@
                             <TextBlock Text="مساحة العمل" Foreground="#29273E"
                                        FontSize="12" FontWeight="Bold"/>
                             <TextBlock Grid.Column="1" Text="FULL PAGE VIEW"
-                                       Foreground="#9997AA" FontSize="8" VerticalAlignment="Center"/>
+                                       Foreground="#999999" FontSize="8" VerticalAlignment="Center"/>
                         </Grid>
                         <ScrollViewer VerticalScrollBarVisibility="Auto"
                                       HorizontalScrollBarVisibility="Disabled"
