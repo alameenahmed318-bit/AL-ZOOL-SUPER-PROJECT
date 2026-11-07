@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -21,6 +22,10 @@ namespace ALZOOOOL
             "MetaQuotes", "Terminal", "Common",
             "Files", "ALZOOL", "status.csv");
 
+        private readonly string candlesPath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "MetaQuotes", "Terminal", "Common", "Files", "ALZOOL", "candles.csv");
+
         private readonly string settingsPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
             "ALZOOOL", "settings.json");
@@ -31,6 +36,7 @@ namespace ALZOOOOL
 
         private SettingsDocument settings;
         private bool mt5Connected;
+        private MarketAnalysis? latestAnalysis;
 
         private ComboBox strategyModeCombo;
         private ComboBox strategyCombo;
@@ -702,6 +708,36 @@ namespace ALZOOOOL
                     out value);
         }
 
+
+        private List<Candle> ReadBridgeCandles()
+        {
+            var candles = new List<Candle>();
+            if (!File.Exists(candlesPath)) return candles;
+
+            foreach (string line in File.ReadAllLines(candlesPath))
+            {
+                if (string.IsNullOrWhiteSpace(line)) continue;
+                string[] fields = line.Split(';');
+                if (fields.Length < 6) continue;
+
+                string timeText = fields[0].Trim().Trim('"');
+                string[] formats = { "yyyy.MM.dd HH:mm", "yyyy.MM.dd HH:mm:ss" };
+                if (!DateTime.TryParseExact(timeText, formats,
+                    CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal,
+                    out DateTime time)) continue;
+
+                if (!ReadNumber(fields, 1, out double open) ||
+                    !ReadNumber(fields, 2, out double high) ||
+                    !ReadNumber(fields, 3, out double low) ||
+                    !ReadNumber(fields, 4, out double close) ||
+                    !ReadNumber(fields, 5, out double volume)) continue;
+
+                candles.Add(new Candle { Time = time, Open = open, High = high,
+                    Low = low, Close = close, Volume = volume });
+            }
+            return candles.OrderBy(x => x.Time).ToList();
+        }
+
         private static bool IsGoldSymbol(string symbol)
         {
             if (string.IsNullOrWhiteSpace(symbol))
@@ -762,6 +798,12 @@ namespace ALZOOOOL
                                     !string.IsNullOrWhiteSpace(server) &&
                                     IsGoldSymbol(symbol);
 
+                                if (connected)
+                                {
+                                    try { latestAnalysis = StrategyEngine.Analyze(ReadBridgeCandles()); }
+                                    catch { latestAnalysis = null; }
+                                }
+
                                 if (connected && showDetails)
                                 {
                                     SectionInfo.Text =
@@ -771,7 +813,13 @@ namespace ALZOOOOL
                                         $"حقوق الملكية: {equity:F2}\n" +
                                         $"سعر الشراء: {ask:F2}\n" +
                                         $"سعر البيع: {bid:F2}\n" +
-                                        $"عدد الصفقات: {positions}";
+                                        $"عدد الصفقات: {positions}\n" +
+                                        (latestAnalysis == null
+                                            ? "تحليل السوق: بانتظار 60 شمعة من MT5."
+                                            : $"تحليل الذهب M1: {latestAnalysis.Description}\n" +
+                                              $"RSI: {latestAnalysis.Rsi:F1} | ADX: {latestAnalysis.Adx:F1}\n" +
+                                              $"قرار المحرك: {latestAnalysis.BestStrategy.Signal} - {latestAnalysis.BestStrategy.Name}\n" +
+                                              $"السبب: {latestAnalysis.BestStrategy.Reason}");
                                 }
                             }
                         }
@@ -792,8 +840,8 @@ namespace ALZOOOOL
             ConnectionStatus.Foreground = connected
                 ? Brushes.LightGreen : Brushes.OrangeRed;
 
-            if (!tradingControl.IsRunning)
-                StartButton.IsEnabled = connected;
+            // Execution remains disabled until demo order routing and risk checks pass.
+            StartButton.IsEnabled = false;
 
             if (!connected && tradingControl.IsRunning)
                 await tradingControl.StopAsync(() => Task.CompletedTask);
@@ -816,7 +864,7 @@ namespace ALZOOOOL
             object sender, RoutedEventArgs e)
         {
             MessageBox.Show(
-                "محرك تنفيذ الصفقات لم يُربط بعد. لن يتم فتح صفقات حقيقية.",
+                "تحليل السوق متصل ببيانات MT5. تنفيذ الأوامر ما زال معطلاً حتى اختبار جسر التداول والحماية على حساب تجريبي.",
                 "تنبيه",
                 MessageBoxButton.OK,
                 MessageBoxImage.Information);
