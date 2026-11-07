@@ -1,0 +1,28 @@
+name: Build AL-ZOOL WPF
+
+on:
+  push:
+    branches:
+      - main
+      - fix/mt5-connection
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore "AL-ZOOL-SUPER-AI-Project-v3/AL-ZOOL-SUPER-AI/ALZOOOOL.csproj"
+
+      - name: Build
+        run: dotnet build "AL-ZOOL-SUPER-AI-Project-v3/AL-ZOOL-SUPER-AI/ALZOOOOL.csproj" --configuration Release --no-restore
