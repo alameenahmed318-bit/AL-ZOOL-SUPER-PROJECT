@@ -26,6 +26,14 @@ namespace ALZOOOOL
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "MetaQuotes", "Terminal", "Common", "Files", "ALZOOL", "candles.csv");
 
+        private readonly string commandPath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "MetaQuotes", "Terminal", "Common", "Files", "ALZOOL", "command.csv");
+
+        private DateTime lastOrderUtc = DateTime.MinValue;
+        private int openPositions;
+        private bool mt5Demo;
+
         private readonly string settingsPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
             "ALZOOOL", "settings.json");
@@ -113,7 +121,10 @@ namespace ALZOOOOL
 
             bridgeTimer.Interval = TimeSpan.FromSeconds(1);
             bridgeTimer.Tick += async (s, e) =>
+            {
                 await RefreshBridgeAsync(false);
+                await TradeCycleAsync();
+            };
 
             bridgeTimer.Start();
         }
@@ -940,6 +951,9 @@ namespace ALZOOOOL
                                 string login = fields[0].Trim();
                                 string server = fields[1].Trim();
                                 string symbol = fields[4].Trim();
+                                mt5Demo = fields.Length >= 11 &&
+                                    fields[10].Trim().Trim('"').Equals("DEMO", StringComparison.OrdinalIgnoreCase);
+                                openPositions = positions;
 
                                 connected =
                                     !string.IsNullOrWhiteSpace(login) &&
@@ -989,7 +1003,7 @@ namespace ALZOOOOL
                 ? Brushes.LightGreen : Brushes.OrangeRed;
 
             // Execution remains disabled until demo order routing and risk checks pass.
-            StartButton.IsEnabled = false;
+            StartButton.IsEnabled = connected && mt5Demo && !tradingControl.IsRunning;
 
             if (!connected && tradingControl.IsRunning)
                 await tradingControl.StopAsync(() => Task.CompletedTask);
@@ -1011,11 +1025,80 @@ namespace ALZOOOOL
         private void StartButton_Click(
             object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(
-                "تحليل السوق متصل ببيانات MT5. تنفيذ الأوامر ما زال معطلاً حتى اختبار جسر التداول والحماية على حساب تجريبي.",
-                "تنبيه",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information);
+            if (!mt5Connected || !mt5Demo)
+            {
+                MessageBox.Show("التشغيل متاح حالياً على حساب MT5 تجريبي فقط لاختبار الجسر بأمان.",
+                    "حماية الحساب", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (latestAnalysis == null || latestAnalysis.Results.Count == 0)
+            {
+                MessageBox.Show("لا توجد بيانات شموع كافية لاتخاذ قرار. انتظر تحديث تحليل الذهب.",
+                    "AL-ZOOL", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            tradingControl.Start();
+            TradingStatus.Text = "يعمل - وضع تجريبي";
+            StartButton.IsEnabled = false;
+        }
+
+        private async Task TradeCycleAsync()
+        {
+            if (!tradingControl.IsRunning || !mt5Connected || !mt5Demo)
+                return;
+
+            if (latestAnalysis == null || latestAnalysis.BestStrategy == null)
+                return;
+
+            // Safety limit for the first live bridge validation: one open XAUUSD position.
+            // No averaging, grid, or martingale is performed by this first test build.
+            if (openPositions > 0 || DateTime.UtcNow - lastOrderUtc < TimeSpan.FromSeconds(30))
+                return;
+
+            TradeSignal signal = latestAnalysis.BestStrategy.Signal;
+            if (signal == TradeSignal.Wait)
+                return;
+
+            double lot = 0.01;
+            if (settings.Values.TryGetValue("baseLot", out string? configuredLot) &&
+                settings.Enabled.TryGetValue("baseLot", out bool lotEnabled) && lotEnabled &&
+                double.TryParse(configuredLot, NumberStyles.Any, CultureInfo.InvariantCulture, out double parsedLot) &&
+                parsedLot > 0)
+                lot = parsedLot;
+
+            string action = signal == TradeSignal.Buy ? "BUY" : "SELL";
+            string id = Guid.NewGuid().ToString("N");
+            string command = string.Join(";", id, action, latestSymbol(), lot.ToString("0.####", CultureInfo.InvariantCulture));
+            try
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(commandPath)!);
+                string temporary = commandPath + ".tmp";
+                await File.WriteAllTextAsync(temporary, command);
+                if (File.Exists(commandPath)) File.Delete(commandPath);
+                File.Move(temporary, commandPath);
+                lastOrderUtc = DateTime.UtcNow;
+                SectionInfo.Text = $"أُرسل أمر {action} بحجم {lot:0.####}. بانتظار تأكيد MT5.";
+            }
+            catch (Exception ex)
+            {
+                SectionInfo.Text = "تعذر إرسال الأمر إلى MT5: " + ex.Message;
+            }
+        }
+
+        private string latestSymbol()
+        {
+            try
+            {
+                if (File.Exists(bridgePath))
+                {
+                    string[] fields = File.ReadAllText(bridgePath).Split(';');
+                    if (fields.Length > 4) return fields[4].Trim().Trim('"');
+                }
+            }
+            catch { }
+            return "XAUUSD";
         }
 
         private async void StopButton_Click(
@@ -1023,6 +1106,8 @@ namespace ALZOOOOL
         {
             await tradingControl.StopAsync(
                 () => Task.CompletedTask);
+            TradingStatus.Text = "متوقف";
+            StartButton.IsEnabled = mt5Connected && mt5Demo;
         }
     }
 }
