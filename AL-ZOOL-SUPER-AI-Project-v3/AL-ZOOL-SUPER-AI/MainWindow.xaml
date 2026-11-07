@@ -4,22 +4,22 @@
         Title="AL-ZOOL SUPER AI" Height="900" Width="1500"
         MinHeight="720" MinWidth="1120"
         WindowStartupLocation="CenterScreen"
-        Background="#0D1511" Foreground="#F3F0E7"
+        Background="#0A100D" Foreground="#F4F1E8"
         FlowDirection="RightToLeft">
     <Window.Resources>
-        <SolidColorBrush x:Key="Gold" Color="#D8B45A"/>
-        <SolidColorBrush x:Key="Green" Color="#1D6948"/>
-        <SolidColorBrush x:Key="Panel" Color="#17231C"/>
-        <SolidColorBrush x:Key="Panel2" Color="#1D2C23"/>
-        <SolidColorBrush x:Key="Muted" Color="#A9B8AE"/>
+        <SolidColorBrush x:Key="Gold" Color="#D9B65D"/>
+        <SolidColorBrush x:Key="Green" Color="#236B49"/>
+        <SolidColorBrush x:Key="Panel" Color="#151F19"/>
+        <SolidColorBrush x:Key="Panel2" Color="#1B2921"/>
+        <SolidColorBrush x:Key="Muted" Color="#A8B7AC"/>
         <Style TargetType="Button">
-            <Setter Property="Foreground" Value="#F7F4EA"/>
-            <Setter Property="Background" Value="#244A36"/>
-            <Setter Property="BorderBrush" Value="#456A50"/>
+            <Setter Property="Foreground" Value="#F5F2E9"/>
+            <Setter Property="Background" Value="#203D2C"/>
+            <Setter Property="BorderBrush" Value="#355B43"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="14,10"/>
-            <Setter Property="Margin" Value="0,4,0,4"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,3"/>
+            <Setter Property="FontSize" Value="13"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -29,17 +29,17 @@
                         <Border x:Name="Bd" Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="8" Padding="{TemplateBinding Padding}">
+                                CornerRadius="9" Padding="{TemplateBinding Padding}">
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="#326348"/>
-                                <Setter TargetName="Bd" Property="BorderBrush" Value="#D8B45A"/>
+                                <Setter TargetName="Bd" Property="Background" Value="#2B573C"/>
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="#D9B65D"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="Bd" Property="Opacity" Value="0.42"/>
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.38"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -48,27 +48,28 @@
         </Style>
     </Window.Resources>
 
-    <Grid Margin="16">
+    <Grid Margin="14">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="238"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Border Grid.Column="0" Background="#14251B" CornerRadius="16"
-                BorderBrush="#34533D" BorderThickness="1" Padding="14">
-            <DockPanel>
-                <StackPanel DockPanel.Dock="Top" Margin="6,8,6,20">
-                    <Border Background="#203C2B" CornerRadius="12" Padding="12">
+        <Border Grid.Column="0" Background="#111C15" CornerRadius="18"
+                BorderBrush="#2B4935" BorderThickness="1" Padding="13">
+            <DockPanel LastChildFill="True">
+                <StackPanel DockPanel.Dock="Top" Margin="5,5,5,16">
+                    <Border Background="#1B3022" BorderBrush="#725D2E" BorderThickness="1"
+                            CornerRadius="14" Padding="13">
                         <StackPanel>
                             <TextBlock Text="AZ | الزول" Foreground="{StaticResource Gold}"
-                                       FontSize="28" FontWeight="Bold"/>
-                            <TextBlock Text="AL-ZOOL SUPER AI" Foreground="#F3F0E7"
-                                       FontSize="12" Margin="0,5,0,0"/>
-                            <TextBlock Text="GOLD CONTROL • XAUUSD" Foreground="#B9C7BC"
+                                       FontSize="27" FontWeight="Bold"/>
+                            <TextBlock Text="AL-ZOOL SUPER AI" Foreground="#F4F1E8"
+                                       FontSize="11" Margin="0,4,0,0"/>
+                            <TextBlock Text="GOLD • XAUUSD" Foreground="#AFC2B2"
                                        FontSize="10" Margin="0,5,0,0"/>
                         </StackPanel>
                     </Border>
-                    <TextBlock Text="القائمة الرئيسية" Foreground="{StaticResource Gold}"
+                    <TextBlock Text="لوحة القيادة" Foreground="{StaticResource Gold}"
                                FontSize="12" FontWeight="Bold" Margin="5,18,5,7"/>
                 </StackPanel>
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -104,92 +105,108 @@
             </DockPanel>
         </Border>
 
-        <Grid Grid.Column="1" Margin="18,0,0,0">
+        <Grid Grid.Column="1" Margin="16,0,0,0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Border Grid.Row="0" Background="{StaticResource Panel}" CornerRadius="14"
-                    BorderBrush="#2D4535" BorderThickness="1" Padding="18" Margin="0,0,0,14">
-                <DockPanel>
-                    <StackPanel>
-                        <TextBlock x:Name="PageTitle" Text="الرئيسية" FontSize="27"
+            <Border Grid.Row="0" Background="#151F19" CornerRadius="16"
+                    BorderBrush="#2C4936" BorderThickness="1" Padding="17" Margin="0,0,0,12">
+                <DockPanel LastChildFill="True">
+                    <StackPanel DockPanel.Dock="Right">
+                        <TextBlock x:Name="PageTitle" Text="الرئيسية" FontSize="25"
                                    FontWeight="Bold" Foreground="{StaticResource Gold}"/>
                         <TextBlock x:Name="PageDescription" Text="مركز مراقبة الذهب وإدارة التداول"
-                                   Foreground="{StaticResource Muted}" Margin="0,5,0,0"/>
+                                   Foreground="{StaticResource Muted}" Margin="0,4,0,0"/>
                     </StackPanel>
                     <StackPanel DockPanel.Dock="Left" Orientation="Horizontal"
                                 VerticalAlignment="Center">
-                        <Border Background="#26372C" CornerRadius="8" Padding="12,8" Margin="0,0,10,0">
+                        <Border Background="#202F25" CornerRadius="9" Padding="12,9" Margin="0,0,9,0">
                             <TextBlock x:Name="ConnectionStatus" Text="غير متصل"
                                        Foreground="OrangeRed" FontWeight="Bold"/>
                         </Border>
                         <Button x:Name="ConnectButton" Content="تحديث اتصال MT5"
                                 Click="ConnectButton_Click" Background="{StaticResource Gold}"
                                 Foreground="#172017" BorderBrush="{StaticResource Gold}"
-                                Padding="16,10"/>
+                                Padding="16,11"/>
                     </StackPanel>
                 </DockPanel>
             </Border>
 
-            <UniformGrid Grid.Row="1" Columns="3" Margin="0,0,0,14">
-                <Border Background="{StaticResource Panel}" CornerRadius="12" Padding="16" Margin="0,0,8,0">
+            <UniformGrid Grid.Row="1" Columns="3" Margin="0,0,0,12">
+                <Border Background="{StaticResource Panel}" BorderBrush="#2A4433" BorderThickness="1"
+                        CornerRadius="13" Padding="16" Margin="0,0,8,0">
                     <StackPanel>
-                        <TextBlock Text="حالة التداول" Foreground="{StaticResource Muted}"/>
+                        <TextBlock Text="حالة التداول" Foreground="{StaticResource Muted}" FontSize="12"/>
                         <TextBlock x:Name="TradingStatus" Text="متوقف" FontSize="23"
                                    FontWeight="Bold" Foreground="{StaticResource Gold}" Margin="0,7,0,0"/>
                     </StackPanel>
                 </Border>
-                <Border Background="{StaticResource Panel}" CornerRadius="12" Padding="16" Margin="0,0,8,0">
+                <Border Background="{StaticResource Panel}" BorderBrush="#2A4433" BorderThickness="1"
+                        CornerRadius="13" Padding="16" Margin="0,0,8,0">
                     <StackPanel>
-                        <TextBlock Text="الأداة المالية" Foreground="{StaticResource Muted}"/>
-                        <TextBlock Text="XAUUSD • GOLD" FontSize="22"
+                        <TextBlock Text="الأداة المالية" Foreground="{StaticResource Muted}" FontSize="12"/>
+                        <TextBlock Text="XAUUSD  |  GOLD" FontSize="21"
                                    FontWeight="Bold" Foreground="{StaticResource Gold}" Margin="0,7,0,0"/>
                     </StackPanel>
                 </Border>
-                <Border Background="{StaticResource Panel}" CornerRadius="12" Padding="16">
+                <Border Background="{StaticResource Panel}" BorderBrush="#2A4433" BorderThickness="1"
+                        CornerRadius="13" Padding="16">
                     <StackPanel>
-                        <TextBlock Text="وضع النظام" Foreground="{StaticResource Muted}"/>
+                        <TextBlock Text="وضع النظام" Foreground="{StaticResource Muted}" FontSize="12"/>
                         <TextBlock Text="مراقبة وتحليل MT5" FontSize="19"
                                    FontWeight="Bold" Foreground="#A9D2B0" Margin="0,7,0,0"/>
                     </StackPanel>
                 </Border>
             </UniformGrid>
 
-            <Border Grid.Row="2" Background="{StaticResource Panel}" CornerRadius="14"
-                    BorderBrush="#2D4535" BorderThickness="1" Padding="18">
-                <DockPanel>
-                    <Border DockPanel.Dock="Top" Background="#203529" CornerRadius="10"
-                            Padding="14" Margin="0,0,0,14">
-                        <StackPanel>
-                            <TextBlock Text="مركز التحكم بالتداول" Foreground="{StaticResource Gold}"
-                                       FontSize="17" FontWeight="Bold" Margin="0,0,0,8"/>
-                            <StackPanel Orientation="Horizontal">
-                                <Button x:Name="StartButton" Content="تشغيل التداول الآلي"
-                                        Click="StartButton_Click" Width="190" Height="46"
-                                        Background="#1D6948" BorderBrush="#4A9468"
-                                        Margin="0,0,8,0"/>
-                                <Button x:Name="StopButton" Content="إيقاف التداول"
-                                        Click="StopButton_Click" Width="160" Height="46"
-                                        Background="#783F37" BorderBrush="#A75B4D"/>
-                            </StackPanel>
-                            <TextBlock Text="زر التشغيل سيُفعّل بعد اكتمال ربط أوامر MT5 واختبار الحماية على حساب تجريبي."
-                                       Foreground="#E3C985" FontSize="12" Margin="0,8,0,0"
-                                       TextWrapping="Wrap"/>
-                        </StackPanel>
-                    </Border>
+            <Border Grid.Row="2" Background="#17251B" BorderBrush="#735E31" BorderThickness="1"
+                    CornerRadius="15" Padding="16" Margin="0,0,0,12">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                        <TextBlock Text="مركز التحكم بالتداول" Foreground="{StaticResource Gold}"
+                                   FontSize="17" FontWeight="Bold"/>
+                        <TextBlock Text="التشغيل الآلي غير متاح حتى اكتمال ربط أوامر MT5 واختبار الحماية على حساب تجريبي."
+                                   Foreground="#D8C995" FontSize="12" Margin="0,5,0,0"
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
+                                Margin="12,0,0,0">
+                        <Button x:Name="StartButton" Content="▶ تشغيل التداول الآلي"
+                                Click="StartButton_Click" Width="190" Height="46"
+                                Background="#236B49" BorderBrush="#4A9468" Margin="0,0,8,0"/>
+                        <Button x:Name="StopButton" Content="■ إيقاف التداول"
+                                Click="StopButton_Click" Width="155" Height="46"
+                                Background="#783F37" BorderBrush="#A75B4D"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="3" Background="{StaticResource Panel}" CornerRadius="16"
+                    BorderBrush="#2C4936" BorderThickness="1" Padding="18">
+                <DockPanel LastChildFill="True">
+                    <StackPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+                        <TextBlock Text="مراقبة السوق والاتصال" Foreground="{StaticResource Gold}"
+                                   FontSize="18" FontWeight="Bold"/>
+                        <TextBlock Text="بيانات الحساب والتحليل تظهر هنا عند وصولها من جسر MT5."
+                                   Foreground="{StaticResource Muted}" FontSize="12" Margin="0,4,0,0"/>
+                    </StackPanel>
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <StackPanel>
-                            <TextBlock Text="حالة الاتصال والتحليل" Foreground="{StaticResource Gold}"
-                                       FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
-                            <Border Background="#101A14" CornerRadius="10" Padding="16">
+                            <Border Background="#0E1711" BorderBrush="#2B4634" BorderThickness="1"
+                                    CornerRadius="11" Padding="17" Margin="0,0,0,14">
                                 <TextBlock x:Name="SectionInfo" Text="بانتظار بيانات MT5..."
                                            FontSize="15" TextWrapping="Wrap" Foreground="#F3F0E7"/>
                             </Border>
                             <TextBlock Text="تفاصيل القسم" Foreground="{StaticResource Gold}"
-                                       FontSize="17" FontWeight="Bold" Margin="0,18,0,8"/>
+                                       FontSize="16" FontWeight="Bold" Margin="0,2,0,9"/>
                             <StackPanel x:Name="PageContent"/>
                         </StackPanel>
                     </ScrollViewer>
