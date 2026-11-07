@@ -30,9 +30,14 @@ namespace ALZOOOOL
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "MetaQuotes", "Terminal", "Common", "Files", "ALZOOL", "command.csv");
 
+        private readonly string executionPath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "MetaQuotes", "Terminal", "Common", "Files", "ALZOOL", "execution.csv");
+
         private DateTime lastOrderUtc = DateTime.MinValue;
+        private DateTime pendingOrderUtc = DateTime.MinValue;
+        private string pendingOrderId = "";
         private int openPositions;
-        private bool mt5Demo;
 
         private readonly string settingsPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
@@ -301,7 +306,11 @@ namespace ALZOOOOL
             AddNumericSetting("profitTrigger", "تفعيل بداية حماية الأرباح بالدرهم");
             AddNumericSetting("profitLock", "تفعيل أقل ربح محفوظ بالدرهم");
 
-            AddHeading("سادساً: اتجاه التداول");
+            AddHeading("سادساً: حدود فتح الصفقات");
+            AddNumericSetting("maxPositions", "تفعيل الحد الأقصى للصفقات المفتوحة");
+            AddNumericSetting("cooldownSeconds", "تفعيل الفاصل بين أوامر الدخول بالثواني");
+
+            AddHeading("سابعاً: اتجاه التداول");
             AddBooleanSetting("allowHedging", "السماح بصفقات الشراء والبيع معاً");
 
             var saveButton = new Button
@@ -951,8 +960,6 @@ namespace ALZOOOOL
                                 string login = fields[0].Trim();
                                 string server = fields[1].Trim();
                                 string symbol = fields[4].Trim();
-                                mt5Demo = fields.Length >= 11 &&
-                                    fields[10].Trim().Trim('"').Equals("DEMO", StringComparison.OrdinalIgnoreCase);
                                 openPositions = positions;
 
                                 connected =
@@ -1002,8 +1009,10 @@ namespace ALZOOOOL
             ConnectionStatus.Foreground = connected
                 ? Brushes.LightGreen : Brushes.OrangeRed;
 
-            // Execution remains disabled until demo order routing and risk checks pass.
+            // The bridge reports the connected MT5 account regardless of account type.
             StartButton.IsEnabled = connected && !tradingControl.IsRunning;
+
+            await RefreshExecutionResultAsync();
 
             if (!connected && tradingControl.IsRunning)
                 await tradingControl.StopAsync(() => Task.CompletedTask);
@@ -1040,7 +1049,7 @@ namespace ALZOOOOL
             }
 
             tradingControl.Start();
-            TradingStatus.Text = "يعمل - وضع تجريبي";
+            TradingStatus.Text = "يعمل";
             StartButton.IsEnabled = false;
         }
 
@@ -1049,12 +1058,28 @@ namespace ALZOOOOL
             if (!tradingControl.IsRunning || !mt5Connected)
                 return;
 
-            if (latestAnalysis == null || latestAnalysis.BestStrategy == null)
+            if (latestAnalysis?.BestStrategy == null)
                 return;
 
-            // Safety limit for the first live bridge validation: one open XAUUSD position.
-            // No averaging, grid, or martingale is performed by this first test build.
-            if (openPositions > 0 || DateTime.UtcNow - lastOrderUtc < TimeSpan.FromSeconds(30))
+            // Do not overwrite an order before the bridge acknowledges it.
+            if (!string.IsNullOrEmpty(pendingOrderId))
+            {
+                await RefreshExecutionResultAsync();
+                if (!string.IsNullOrEmpty(pendingOrderId))
+                {
+                    if (DateTime.UtcNow - pendingOrderUtc < TimeSpan.FromSeconds(20))
+                        return;
+
+                    SectionInfo.Text = "لم يصل تأكيد تنفيذ الأمر من MT5 خلال 20 ثانية؛ تم إيقاف إرسال أوامر جديدة حتى مراجعة الجسر.";
+                    await tradingControl.StopAsync(() => Task.CompletedTask);
+                    return;
+                }
+            }
+
+            int maxPositions = ReadPositiveIntSetting("maxPositions", 10);
+            int cooldownSeconds = ReadPositiveIntSetting("cooldownSeconds", 10);
+            if (openPositions >= maxPositions ||
+                DateTime.UtcNow - lastOrderUtc < TimeSpan.FromSeconds(cooldownSeconds))
                 return;
 
             TradeSignal signal = latestAnalysis.BestStrategy.Signal;
@@ -1068,6 +1093,12 @@ namespace ALZOOOOL
                 parsedLot > 0)
                 lot = parsedLot;
 
+            if (settings.Values.TryGetValue("maxLot", out string? maxLotText) &&
+                settings.Enabled.TryGetValue("maxLot", out bool maxLotEnabled) && maxLotEnabled &&
+                double.TryParse(maxLotText, NumberStyles.Any, CultureInfo.InvariantCulture, out double maxLot) &&
+                maxLot > 0)
+                lot = Math.Min(lot, maxLot);
+
             string action = signal == TradeSignal.Buy ? "BUY" : "SELL";
             string id = Guid.NewGuid().ToString("N");
             string command = string.Join(";", id, action, latestSymbol(), lot.ToString("0.####", CultureInfo.InvariantCulture));
@@ -1078,12 +1109,64 @@ namespace ALZOOOOL
                 await File.WriteAllTextAsync(temporary, command);
                 if (File.Exists(commandPath)) File.Delete(commandPath);
                 File.Move(temporary, commandPath);
-                lastOrderUtc = DateTime.UtcNow;
-                SectionInfo.Text = $"أُرسل أمر {action} بحجم {lot:0.####}. بانتظار تأكيد MT5.";
+                pendingOrderId = id;
+                pendingOrderUtc = DateTime.UtcNow;
+                lastOrderUtc = pendingOrderUtc;
+                SectionInfo.Text = $"تم إرسال {action} بحجم {lot:0.####} — ننتظر تأكيد التنفيذ من MT5.";
             }
             catch (Exception ex)
             {
+                pendingOrderId = "";
                 SectionInfo.Text = "تعذر إرسال الأمر إلى MT5: " + ex.Message;
+            }
+        }
+
+        private int ReadPositiveIntSetting(string key, int fallback)
+        {
+            if (settings.Values.TryGetValue(key, out string? value) &&
+                settings.Enabled.TryGetValue(key, out bool enabled) && enabled &&
+                int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out int parsed) &&
+                parsed > 0)
+                return parsed;
+
+            return fallback;
+        }
+
+        private async Task RefreshExecutionResultAsync()
+        {
+            if (string.IsNullOrEmpty(pendingOrderId) || !File.Exists(executionPath))
+                return;
+
+            try
+            {
+                string content;
+                using (var stream = new FileStream(executionPath, FileMode.Open,
+                    FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
+                using (var reader = new StreamReader(stream))
+                    content = await reader.ReadToEndAsync();
+
+                string[] fields = content.Trim().Split(';');
+                if (fields.Length < 2 ||
+                    !fields[0].Trim().Trim('"').Equals(pendingOrderId, StringComparison.Ordinal))
+                    return;
+
+                string result = fields[1].Trim().Trim('"');
+                if (result.Equals("OK", StringComparison.OrdinalIgnoreCase))
+                    SectionInfo.Text = "أكد MT5 تنفيذ الأمر بنجاح.";
+                else
+                    SectionInfo.Text = "رفض MT5 الأمر أو فشل تنفيذه: " + result;
+
+                pendingOrderId = "";
+                pendingOrderUtc = DateTime.MinValue;
+                await RefreshBridgeAsync(false);
+            }
+            catch (IOException)
+            {
+                // MT5 may be writing the result file at this moment; retry on the next timer tick.
+            }
+            catch (UnauthorizedAccessException)
+            {
+                SectionInfo.Text = "لا توجد صلاحية لقراءة تأكيد تنفيذ MT5.";
             }
         }
 
