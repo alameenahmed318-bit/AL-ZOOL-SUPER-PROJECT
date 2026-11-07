@@ -574,66 +574,93 @@ namespace ALZOOOOL
             PageTitle.Text = section;
             PageDescription.Text = GetSectionDescription(section);
 
+            if (section == "الإعدادات الثابتة" ||
+                section == "اللوت والتعزيز والتبريد" ||
+                section == "إدارة المخاطر")
+            {
+                BuildSettingsPage();
+                return;
+            }
+
+            if (section == "الرئيسية" ||
+                section == "عقل الذكاء الاصطناعي" ||
+                section == "تحليل السوق" ||
+                section == "قرارات الذكاء الاصطناعي" ||
+                section == "منافسة الاستراتيجيات" ||
+                section == "مقارنة الصفقات" ||
+                section == "توقع حركة الذهب" ||
+                section == "سجل التداول التحليلي")
+            {
+                BuildAnalysisSection(section);
+                return;
+            }
+
             AddHeading("حالة القسم");
-            var status = new TextBlock
+            PageContent.Children.Add(new TextBlock
             {
                 Text = GetSectionStatus(section),
                 Foreground = Brushes.White,
                 FontSize = 14,
                 TextWrapping = TextWrapping.Wrap,
                 Margin = new Thickness(0, 4, 0, 12)
-            };
-            PageContent.Children.Add(status);
+            });
 
-            if (section == "مراقبة النظام والاتصال" || section == "الرئيسية" ||
-                section == "مركز التحكم الرئيسي" || section == "الصفقات المفتوحة")
+            if (section == "مراقبة النظام والاتصال" ||
+                section == "مركز التحكم الرئيسي" ||
+                section == "مركز الطوارئ")
             {
                 var refresh = new Button
                 {
                     Content = "تحديث بيانات MT5 الآن",
-                    Height = 42,
-                    Margin = new Thickness(0, 8, 0, 12),
-                    Background = new SolidColorBrush(Color.FromRgb(23, 107, 69)),
-                    Foreground = Brushes.White,
-                    BorderThickness = new Thickness(0)
+                    Height = 38,
+                    Margin = new Thickness(0, 8, 0, 8)
                 };
                 refresh.Click += async (s, e) => await RefreshBridgeAsync(true);
                 PageContent.Children.Add(refresh);
             }
 
-            AddHeading("معلومات وتشغيل القسم");
+            if (section == "مركز الطوارئ")
+            {
+                var stop = new Button
+                {
+                    Content = "إيقاف تشغيل التطبيق",
+                    Height = 38,
+                    Margin = new Thickness(0, 4, 0, 12),
+                    Background = Brushes.DarkRed,
+                    Foreground = Brushes.White
+                };
+                stop.Click += async (s, e) =>
+                    await tradingControl.StopAsync(() => Task.CompletedTask);
+                PageContent.Children.Add(stop);
+            }
+
+            AddHeading("تفاصيل الخدمة");
             PageContent.Children.Add(new TextBlock
             {
                 Text = GetSectionDetails(section),
-                Foreground = new SolidColorBrush(Color.FromRgb(225, 225, 225)),
-                FontSize = 14,
+                Foreground = Brushes.White,
+                FontSize = 13,
                 TextWrapping = TextWrapping.Wrap,
                 Margin = new Thickness(0, 4, 0, 14)
             });
 
-            AddHeading("ملاحظاتك لهذا القسم");
+            AddHeading("ملاحظاتك");
             var notes = new TextBox
             {
                 Text = settings.Values.TryGetValue("notes_" + section, out string? saved) ? saved : "",
-                Height = 90,
-                MinWidth = 260,
+                Height = 75,
                 AcceptsReturn = true,
                 TextWrapping = TextWrapping.Wrap,
                 VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                Padding = new Thickness(8),
-                Background = new SolidColorBrush(Color.FromRgb(232, 227, 214)),
-                Foreground = Brushes.Black
+                Padding = new Thickness(8)
             };
             PageContent.Children.Add(notes);
 
             var save = new Button
             {
-                Content = "حفظ ملاحظات القسم",
-                Height = 42,
-                Margin = new Thickness(0, 10, 0, 15),
-                Background = new SolidColorBrush(Color.FromRgb(23, 107, 69)),
-                Foreground = Brushes.White,
-                BorderThickness = new Thickness(0)
+                Content = "حفظ الملاحظات",
+                Height = 36,
+                Margin = new Thickness(0, 8, 0, 12)
             };
             save.Click += (s, e) =>
             {
@@ -643,7 +670,7 @@ namespace ALZOOOOL
                     Directory.CreateDirectory(Path.GetDirectoryName(settingsPath)!);
                     File.WriteAllText(settingsPath, JsonSerializer.Serialize(settings,
                         new JsonSerializerOptions { WriteIndented = true }));
-                    MessageBox.Show("تم حفظ ملاحظات هذا القسم.", "AL-ZOOL SUPER AI");
+                    MessageBox.Show("تم حفظ الملاحظات.", "AL-ZOOL SUPER AI");
                 }
                 catch (Exception ex)
                 {
@@ -651,6 +678,127 @@ namespace ALZOOOOL
                 }
             };
             PageContent.Children.Add(save);
+        }
+
+        private void BuildAnalysisSection(string section)
+        {
+            AddHeading("حالة الاتصال والبيانات");
+            PageContent.Children.Add(new TextBlock
+            {
+                Text = mt5Connected
+                    ? "اتصال MT5 نشط. التحليل يعتمد على آخر شموع XAUUSD المستلمة."
+                    : "لا يوجد اتصال حديث بـ MT5؛ لن يتم عرض توصيات أو أرقام افتراضية.",
+                Foreground = mt5Connected ? Brushes.LightGreen : Brushes.OrangeRed,
+                FontSize = 13,
+                TextWrapping = TextWrapping.Wrap,
+                Margin = new Thickness(0, 3, 0, 10)
+            });
+
+            if (latestAnalysis == null ||
+                latestAnalysis.Results == null ||
+                latestAnalysis.Results.Count == 0)
+            {
+                AddHeading("التحليل");
+                PageContent.Children.Add(new TextBlock
+                {
+                    Text = "بانتظار 60 شمعة صحيحة على الأقل من الجسر. شغّل ALZOOL_BRIDGE على شارت الذهب في MT5.",
+                    Foreground = Brushes.White,
+                    FontSize = 13,
+                    TextWrapping = TextWrapping.Wrap
+                });
+                return;
+            }
+
+            var analysis = latestAnalysis;
+            int buys = analysis.Results.Count(x => x.Signal == TradeSignal.Buy);
+            int sells = analysis.Results.Count(x => x.Signal == TradeSignal.Sell);
+            int waits = analysis.Results.Count(x => x.Signal == TradeSignal.Wait);
+
+            AddHeading("ملخص السوق");
+            AddDataLine("حالة السوق", analysis.Description);
+            AddDataLine("السعر الأخير", analysis.LastPrice.ToString("F2", CultureInfo.InvariantCulture));
+            AddDataLine("EMA 9 / EMA 21", $"{analysis.EmaFast:F2} / {analysis.EmaSlow:F2}");
+            AddDataLine("RSI 14", analysis.Rsi.ToString("F1", CultureInfo.InvariantCulture));
+            AddDataLine("ATR 14", analysis.Atr.ToString("F2", CultureInfo.InvariantCulture));
+            AddDataLine("ADX 14", analysis.Adx.ToString("F1", CultureInfo.InvariantCulture));
+
+            AddHeading("تصويت الاستراتيجيات");
+            AddDataLine("شراء", buys.ToString(CultureInfo.InvariantCulture));
+            AddDataLine("بيع", sells.ToString(CultureInfo.InvariantCulture));
+            AddDataLine("انتظار", waits.ToString(CultureInfo.InvariantCulture));
+            AddDataLine("أفضل إشارة حالية",
+                $"{analysis.BestStrategy.Signal} — {analysis.BestStrategy.Name}");
+            AddDataLine("سبب الاختيار", analysis.BestStrategy.Reason);
+
+            AddHeading("نتائج كل استراتيجية وتركيبة");
+            foreach (var result in analysis.Results.OrderByDescending(x => x.Strength))
+            {
+                var panel = new Border
+                {
+                    Background = new SolidColorBrush(Color.FromRgb(39, 43, 56)),
+                    BorderBrush = new SolidColorBrush(Color.FromRgb(75, 77, 98)),
+                    BorderThickness = new Thickness(1),
+                    CornerRadius = new CornerRadius(6),
+                    Padding = new Thickness(9),
+                    Margin = new Thickness(0, 3, 0, 3)
+                };
+
+                var stack = new StackPanel();
+                var header = new DockPanel();
+                var signal = new TextBlock
+                {
+                    Text = result.Signal.ToString(),
+                    Foreground = result.Signal == TradeSignal.Buy ? Brushes.LightGreen :
+                        result.Signal == TradeSignal.Sell ? Brushes.OrangeRed : Brushes.LightGray,
+                    FontWeight = FontWeights.Bold,
+                    FontSize = 12
+                };
+                DockPanel.SetDock(signal, Dock.Right);
+                header.Children.Add(signal);
+                header.Children.Add(new TextBlock
+                {
+                    Text = result.Name,
+                    Foreground = Brushes.White,
+                    FontWeight = FontWeights.SemiBold,
+                    FontSize = 12
+                });
+                stack.Children.Add(header);
+                stack.Children.Add(new TextBlock
+                {
+                    Text = result.Reason,
+                    Foreground = Brushes.LightGray,
+                    FontSize = 11,
+                    TextWrapping = TextWrapping.Wrap,
+                    Margin = new Thickness(0, 4, 0, 0)
+                });
+                panel.Child = stack;
+                PageContent.Children.Add(panel);
+            }
+        }
+
+        private void AddDataLine(string label, string value)
+        {
+            var row = new Grid { Margin = new Thickness(0, 2, 0, 2) };
+            row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(150) });
+            row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            row.Children.Add(new TextBlock
+            {
+                Text = label,
+                Foreground = Brushes.LightGray,
+                FontSize = 11,
+                Margin = new Thickness(0, 4, 8, 4)
+            });
+            var valueText = new TextBlock
+            {
+                Text = value,
+                Foreground = Brushes.White,
+                FontSize = 11,
+                TextWrapping = TextWrapping.Wrap,
+                Margin = new Thickness(0, 4, 0, 4)
+            };
+            Grid.SetColumn(valueText, 1);
+            row.Children.Add(valueText);
+            PageContent.Children.Add(row);
         }
 
         private string GetSectionDescription(string section) => section switch
