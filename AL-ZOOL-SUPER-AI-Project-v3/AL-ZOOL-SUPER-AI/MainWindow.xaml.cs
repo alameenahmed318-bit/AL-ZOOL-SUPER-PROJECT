@@ -702,6 +702,19 @@ namespace ALZOOOOL
                     out value);
         }
 
+        private static bool IsGoldSymbol(string symbol)
+        {
+            if (string.IsNullOrWhiteSpace(symbol))
+                return false;
+
+            string normalized = symbol.Trim().ToUpperInvariant();
+
+            // Brokers commonly append suffixes, for example XAUUSD.a or XAUUSDm.
+            return normalized.StartsWith("XAUUSD", StringComparison.Ordinal) ||
+                   (normalized.Contains("XAU", StringComparison.Ordinal) &&
+                    normalized.Contains("USD", StringComparison.Ordinal));
+        }
+
         private async Task RefreshBridgeAsync(bool showDetails)
         {
             bool connected = false;
@@ -714,8 +727,16 @@ namespace ALZOOOOL
 
                     if ((DateTime.UtcNow - info.LastWriteTimeUtc).TotalSeconds <= 10)
                     {
-                        string content =
-                            await File.ReadAllTextAsync(bridgePath);
+                        // MT5 may rewrite the CSV while the app reads it.
+                        // Allow shared read/write access to avoid false disconnects.
+                        string content;
+                        using (var stream = new FileStream(
+                            bridgePath, FileMode.Open, FileAccess.Read,
+                            FileShare.ReadWrite | FileShare.Delete))
+                        using (var reader = new StreamReader(stream))
+                        {
+                            content = await reader.ReadToEndAsync();
+                        }
 
                         string[] lines = content.Split(
                             new[] { '\r', '\n' },
@@ -739,7 +760,7 @@ namespace ALZOOOOL
                                 connected =
                                     !string.IsNullOrWhiteSpace(login) &&
                                     !string.IsNullOrWhiteSpace(server) &&
-                                    symbol == "XAUUSD";
+                                    IsGoldSymbol(symbol);
 
                                 if (connected && showDetails)
                                 {
@@ -765,7 +786,7 @@ namespace ALZOOOOL
             mt5Connected = connected;
 
             ConnectionStatus.Text = connected
-                ? "متصل - Deriv MT5"
+                ? "متصل - MT5"
                 : "غير متصل";
 
             ConnectionStatus.Foreground = connected
